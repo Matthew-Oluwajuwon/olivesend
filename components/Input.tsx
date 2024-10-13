@@ -41,16 +41,16 @@ const Input: React.FC<InputProps> = (props) => {
             : touched
             ? "border-[#006F01]"
             : "border-gray-500 dark:border-dark-gray-500"
-        } rounded-[20px] relative p-4 w-full mx-auto ${className}`}
+        } rounded-[20px] relative p-4- w-full mx-auto ${className}`}
         {...rest}
       >
-        <View className="absolute left-5 top-1/2 mt-1.5 z-50">{prefix}</View>
+        <View className="absolute left-5 top-1/3 -mt-0.5 z-50">{prefix}</View>
         <TextInput
           {...inputProps}
-          className={`text-black dark:text-white ${inputProps?.className}`}
+          className={`text-black dark:text-white rounded-[20px] p-4 ${suffix && "pr-14"} ${prefix && "pl-14"} ${inputProps?.className}`}
           cursorColor={colorScheme === "dark" ? "white" : "black"}
         />
-        <View className="absolute right-5 top-1/2 mt-1.5 z-50">{suffix}</View>
+        <View className="absolute right-5 top-1/3 -mt-0.5 z-50">{suffix}</View>
       </View>
       {message && inputProps?.value && (
         <Text
