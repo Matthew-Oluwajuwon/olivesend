@@ -13,7 +13,7 @@
       "channel": "development",
       "ios": {
         "resourceClass": "m-medium",
-        "simulator": false,
+        "simulator": true,
         "image": "latest"
       },
       "android": {

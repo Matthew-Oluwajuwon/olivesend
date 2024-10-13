@@ -7,6 +7,7 @@ import { setAuthState } from "@/store/slice";
 import { AppPayload } from "@/models/application/payload";
 import { router } from "expo-router";
 import Pdf from "react-native-pdf";
+import { StatusBar } from "expo-status-bar";
 
 const ViewCapturedDoc = () => {
   const dispatch = useAppDispatch();
@@ -21,15 +22,16 @@ const ViewCapturedDoc = () => {
  
   return (
     <View className="px-5 mt-3 flex-1 relative">
+      <StatusBar style="auto" />
       <OnboardingHeader title="Verify your identity" description="" />
       <View className="flex-1 justify-center items-center bg-[#FFFFFF] dark:bg-primary-dark relative">
         <View className="h-60 rounded-[20px] w-full overflow-hidden border border-[#747474] bg-[#494949]">
-          {state.mimeType ? (
+          {state.mimeType !== "capture" ? (
             <Pdf source={{ uri: state.imageBase64, cache: true }} style={{ flex: 1 }} />
           ) : (
             <Image
               source={{
-                uri: `data:"image/jpeg;base64,${state.imageBase64}`,
+                uri: `data:image/jpeg;base64,${state.imageBase64}`,
               }}
               className="w-full h-full"
             />
@@ -39,7 +41,7 @@ const ViewCapturedDoc = () => {
           Make sure your details are clear and unobstructed
         </Text>
         <View className="absolute bottom-10 w-full">
-          <Button type="primary" className="w-full">
+          <Button type="primary" onPress={() => router.navigate("/(onboarding)/createPIN")} className="w-full">
             Submit photo
           </Button>
           <Pressable className="self-center mx-auto mt-5" onPress={onRetakePhoto}>

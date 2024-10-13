@@ -14,7 +14,15 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.tegritech.olivesend"
+      "bundleIdentifier": "com.tegritech.olivesend",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets.",
+        "NSFaceIDUsageDescription": "This app uses Face ID for authentication.",
+        "NSPhotoLibraryUsageDescription": "Select pictures for certain activities",
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -31,6 +39,8 @@
       "output": "static"
     },
     "plugins": [
+      "@config-plugins/react-native-blob-util",
+      "@config-plugins/react-native-pdf",
       "expo-router",
       [
         "expo-camera",

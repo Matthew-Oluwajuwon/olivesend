@@ -41,7 +41,7 @@ export default function Index() {
       <Carousel {...baseOptions} />
       <View className="flex-row justify-center gap-3">
         <Button type="primary" onPress={() => router.navigate("/login")} style={{width: buttonWidth}}>Log in</Button>
-        <Button type="default" onPress={() => router.navigate("/(onboarding)")} style={{width: buttonWidth}}>Sign up</Button>
+        <Button type="default" onPress={() => router.navigate("/(onboarding)/createPIN")} style={{width: buttonWidth}}>Sign up</Button>
       </View>
     </SafeAreaView>
   );

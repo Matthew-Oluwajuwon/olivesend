@@ -33,6 +33,7 @@ const useDocumentCapture = () => {
           base64: true, // Optional: Set this to true to get the image in base64 format
         });
         dispatch(setAuthState(new AppPayload("imageBase64", photo.base64)));
+        dispatch(setAuthState(new AppPayload("mimeType", "capture")));
         router.navigate("/(onboarding)/viewCapturedDoc");
       } catch (error: any) {
         Alert.alert("Error capturing photo: ", error.message || "An unknown error occured");

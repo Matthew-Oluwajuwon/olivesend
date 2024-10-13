@@ -56,28 +56,63 @@ export default function RootLayout() {
                 <Stack.Screen name="(onboarding)/otpVerification" />
                 <Stack.Screen name="(onboarding)/createPassword" />
                 <Stack.Screen name="(onboarding)/personalDetails" />
-                <Stack.Screen name="(onboarding)/identityVerification" options={{
-                  headerBackVisible: false,
-                  headerLeft: undefined
-                }} />
-                <Stack.Screen name="(onboarding)/documentCapturing" options={{
-                  headerBackVisible: false,
-                  headerLeft: undefined,
-                  headerStyle: {
-                    backgroundColor: "#3E3E3E"
-                  },
-                  contentStyle: {
-                    backgroundColor: "#3E3E3E",
-                  },
-                }} />
-                <Stack.Screen name="(onboarding)/viewCapturedDoc" options={{
-                  headerStyle: {
-                    backgroundColor: colorScheme === "dark" ? "#121212" : "white"
-                  },
-                  contentStyle: {
-                    backgroundColor: colorScheme === "dark" ? "#121212" : "white",
-                  },
-                }} />
+                <Stack.Screen
+                  name="(onboarding)/identityVerification"
+                  options={{
+                    headerBackVisible: false,
+                    headerLeft: undefined,
+                  }}
+                />
+                <Stack.Screen
+                  name="(onboarding)/documentCapturing"
+                  options={{
+                    headerBackVisible: false,
+                    headerLeft: undefined,
+                    headerStyle: {
+                      backgroundColor: "#3E3E3E",
+                    },
+                    contentStyle: {
+                      backgroundColor: "#3E3E3E",
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="(onboarding)/viewCapturedDoc"
+                  options={{
+                    headerStyle: {
+                      backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+                    },
+                    contentStyle: {
+                      backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="(onboarding)/createPIN"
+                  options={{
+                    headerBackVisible: false,
+                    headerLeft: undefined,
+                    headerStyle: {
+                      backgroundColor: "#102E34",
+                    },
+                    contentStyle: {
+                      backgroundColor: "#102E34",
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="(onboarding)/confirmPIN"
+                  options={{
+                    headerBackVisible: false,
+                    headerLeft: undefined,
+                    headerStyle: {
+                      backgroundColor: "#102E34",
+                    },
+                    contentStyle: {
+                      backgroundColor: "#102E34",
+                    },
+                  }}
+                />
                 <Stack.Screen name="forgotPassword" />
               </Stack>
             </ThemeProvider>
