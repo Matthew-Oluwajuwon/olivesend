@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { FormikErrors, FormikTouched, useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -84,7 +85,7 @@ const usePersonalDetails = (): PersonalDetailsFunction => {
         address: "",
         email: "",
       },
-      onSubmit: () => {},
+      onSubmit: () => router.navigate("/(onboarding)/identityVerification"),
       validationSchema,
       validateOnMount: true,
     });

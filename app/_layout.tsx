@@ -34,7 +34,7 @@ export default function RootLayout() {
                   headerStyle: {
                     backgroundColor: colorScheme === "dark" ? "#121212" : "white",
                   },
-                  statusBarColor: colorScheme === "dark" ? "light" : "dark",
+                  // statusBarColor: colorScheme === "dark" ? "light" : "dark",
                   contentStyle: {
                     backgroundColor: colorScheme === "dark" ? "#121212" : "white",
                   },
@@ -56,6 +56,28 @@ export default function RootLayout() {
                 <Stack.Screen name="(onboarding)/otpVerification" />
                 <Stack.Screen name="(onboarding)/createPassword" />
                 <Stack.Screen name="(onboarding)/personalDetails" />
+                <Stack.Screen name="(onboarding)/identityVerification" options={{
+                  headerBackVisible: false,
+                  headerLeft: undefined
+                }} />
+                <Stack.Screen name="(onboarding)/documentCapturing" options={{
+                  headerBackVisible: false,
+                  headerLeft: undefined,
+                  headerStyle: {
+                    backgroundColor: "#3E3E3E"
+                  },
+                  contentStyle: {
+                    backgroundColor: "#3E3E3E",
+                  },
+                }} />
+                <Stack.Screen name="(onboarding)/viewCapturedDoc" options={{
+                  headerStyle: {
+                    backgroundColor: colorScheme === "dark" ? "#121212" : "white"
+                  },
+                  contentStyle: {
+                    backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+                  },
+                }} />
                 <Stack.Screen name="forgotPassword" />
               </Stack>
             </ThemeProvider>

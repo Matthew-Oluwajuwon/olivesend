@@ -1,4 +1,5 @@
 import useCreatePassword from "./onboarding/useCreatePassword";
+import useDocumentCapture from "./onboarding/useDocumentCapture";
 import useOtpVerification from "./onboarding/useOtpVerification";
 import usePersonalDetails from "./onboarding/usePersonalDetails";
 import useSendEmailVerification from "./onboarding/useSendEmailVerification";
@@ -13,5 +14,6 @@ export {
   useOtpVerification,
   useSendEmailVerification,
   useAuthQuery,
-  usePersonalDetails
+  usePersonalDetails,
+  useDocumentCapture
 };

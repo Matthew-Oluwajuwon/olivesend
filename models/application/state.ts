@@ -8,4 +8,6 @@ export interface Auth {
   isSpecialChar: boolean;
   hasValue: boolean;
   passwordRequest: PasswordRequest;
+  imageBase64: string;
+  mimeType: string;
 }

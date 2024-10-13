@@ -19,7 +19,7 @@ const CreatePassword = () => {
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
       <View className="px-5 mt-3 flex-1 relative">
-        <OnboardingHeader title="Create a password" description="create a unique password " />
+        <OnboardingHeader title="Create a password" description="create a unique password" />
         <View className="mt-10 flex-1 relative">
           <Input
             label="Enter password"

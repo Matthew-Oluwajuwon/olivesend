@@ -10,7 +10,9 @@ const initialState: Auth = {
   isUpperCase: false,
   isSpecialChar: false,
   hasValue: false,
-  passwordRequest: new PasswordRequest()
+  passwordRequest: new PasswordRequest(),
+  imageBase64: "",
+  mimeType: ""
 };
 
 const authSlice = createSlice({
