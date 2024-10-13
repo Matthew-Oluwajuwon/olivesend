@@ -6,7 +6,6 @@ export const authConfig = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.EXPO_PUBLIC_API_BASE_URL,
   }),
-  tagTypes: ["getData"],
   refetchOnFocus: false,
   refetchOnMountOrArgChange: false,
   endpoints: (builder) => ({
@@ -14,7 +13,6 @@ export const authConfig = createApi({
       query: (state: any) => ({
         url: state.getUrl,
       }),
-      providesTags: ["getData"],
     }),
     mutateUnsecureData: builder.mutation({
       query: (state: any) => ({
@@ -22,7 +20,6 @@ export const authConfig = createApi({
         method: state.formMethod,
         body: state.request,
       }),
-      invalidatesTags: (_result, _error, arg) => [{ type: "getData", id: arg.id }],
     }),
   }),
 });

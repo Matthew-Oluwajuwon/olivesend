@@ -1,4 +1,4 @@
-import { PasswordRequest } from "../client/request";
+import { PasswordRequest, VerifyEmail } from "../client/request";
 
 export interface Auth {
   hasNumber: boolean;
@@ -8,6 +8,8 @@ export interface Auth {
   isSpecialChar: boolean;
   hasValue: boolean;
   passwordRequest: PasswordRequest;
+  verifyEmailRequest: VerifyEmail;
   imageBase64: string;
   mimeType: string;
+  token: string;
 }

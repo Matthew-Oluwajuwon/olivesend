@@ -8,7 +8,7 @@ import OnboardingHeader from "@/components/OnboardingHeader";
 import Flower from "@/components/Flower";
 
 const SignUp = () => {
-  const { errors, values, touched, disabled, setFieldTouched, handleChange, handleSubmit } =
+  const { errors, values, touched, disabled, loading, setFieldTouched, handleChange, handleSubmit } =
     useSendEmailVerification();
 
   return (
@@ -44,6 +44,7 @@ const SignUp = () => {
             type="primary"
             className="absolute bottom-7 w-full"
             disabled={disabled}
+            loading={loading}
             onPress={() => handleSubmit()}
           >
             Continue

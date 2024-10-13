@@ -20,12 +20,16 @@ import { useOtpVerification } from "@/hooks";
 import { useColorScheme } from "nativewind";
 import Button from "@/components/Button";
 import Flower from "@/components/Flower";
+import { useAppSelector } from "@/store/hooks";
 
 const CELL_COUNT = 6;
 
 const OtpVerification = () => {
+  const state = useAppSelector(state => {
+    return state.auth
+  })
   const { colorScheme } = useColorScheme();
-  const { errors, values, disabled, handleChange, handleSubmit, setFieldTouched } =
+  const { errors, values, disabled, loading, handleChange, handleSubmit, setFieldTouched } =
     useOtpVerification();
   const [value, setValue] = useState("");
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
@@ -62,12 +66,18 @@ const OtpVerification = () => {
     },
   });
 
+  const email = state.verifyEmailRequest?.email
+  const atIndex = email.indexOf("@");
+  const charactersBeforeAt = email.slice(0, atIndex);
+  const maskedEmail =
+    "****" + charactersBeforeAt.slice(-2) + email.slice(atIndex);
+
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
       <View className="px-5 mt-3 flex-1 relative">
         <OnboardingHeader
           title="Verify your email address"
-          description="Enter the verification code sent to your email. ****34@gmail.com"
+          description={`Enter the verification code sent to your email. ${maskedEmail}`}
         />
         <View className="mt-10 relative flex-1">
           <Text className="text-black dark:text-white mb-2">Enter OTP</Text>
@@ -126,6 +136,7 @@ const OtpVerification = () => {
             type="primary"
             className="absolute bottom-7 w-full"
             disabled={disabled}
+            loading={loading}
             onPress={() => handleSubmit()}
           >
             Continue

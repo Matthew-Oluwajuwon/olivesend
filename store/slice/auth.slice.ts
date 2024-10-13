@@ -1,6 +1,6 @@
 import { AppPayload } from "@/models/application/payload";
 import { Auth } from "@/models/application/state";
-import { PasswordRequest } from "@/models/client/request";
+import { PasswordRequest, VerifyEmail } from "@/models/client/request";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: Auth = {
@@ -12,7 +12,9 @@ const initialState: Auth = {
   hasValue: false,
   passwordRequest: new PasswordRequest(),
   imageBase64: "",
-  mimeType: ""
+  mimeType: "",
+  verifyEmailRequest: new VerifyEmail(),
+  token: ""
 };
 
 const authSlice = createSlice({

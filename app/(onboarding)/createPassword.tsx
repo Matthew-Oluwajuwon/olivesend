@@ -27,6 +27,7 @@ const CreatePassword = () => {
             inputProps={{
               secureTextEntry: !isPasswordToggled,
               value: values.password,
+              maxLength: 20,
               onChangeText: handleChange("password"),
               onFocus: () => setFieldTouched("password", true),
               onBlur: () => setFieldTouched("password", false),

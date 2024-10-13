@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import Toast from "react-native-toast-message";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -115,6 +116,7 @@ export default function RootLayout() {
                 />
                 <Stack.Screen name="forgotPassword" />
               </Stack>
+              <Toast />
             </ThemeProvider>
           </BottomSheetModalProvider>
         </GestureHandlerRootView>

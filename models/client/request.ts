@@ -1,3 +1,7 @@
 export class PasswordRequest {
-  password: string = ""
+  password: string = "";
+}
+
+export class VerifyEmail {
+  email: string = "";
 }
