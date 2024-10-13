@@ -13,10 +13,7 @@ export interface PersonalDetailsFunction {
     firstName: string;
     middleName: string;
     lastName: string;
-    country: {
-      countryFlag: string;
-      name: string;
-    };
+    country: string;
     address: string;
     phoneNumber: string;
   }>;
@@ -25,10 +22,7 @@ export interface PersonalDetailsFunction {
     firstName: string;
     middleName: string;
     lastName: string;
-    country: {
-      countryFlag: string;
-      name: string;
-    };
+    country: string;
     address: string;
     phoneNumber: string;
   };
@@ -36,10 +30,7 @@ export interface PersonalDetailsFunction {
     firstName: string;
     middleName: string;
     lastName: string;
-    country: {
-      countryFlag: string;
-      name: string;
-    };
+    country: string;
     address: string;
     phoneNumber: string;
   }>;
@@ -54,10 +45,7 @@ export interface PersonalDetailsFunction {
           firstName: string;
           middleName: string;
           lastName: string;
-          country: {
-            countryFlag: string;
-            name: string;
-          };
+          country: string;
           address: string;
           phoneNumber: string;
         }>
@@ -75,19 +63,14 @@ const usePersonalDetails = (): PersonalDetailsFunction => {
       .min(2, "Last name must be at least 2 characters")
       .matches(/^[^0-9]*$/, "Last name must not contain numbers")
       .required("Last name is required"),
-    country: Yup.object()
-      .shape({
-        image: Yup.string().required("Country image is required"),
-        name: Yup.string().required("Country label is required"),
-      })
-      .required("Country is required"),
+    country: Yup.string().required("Country is required"),
     address: Yup.string()
       .min(5, "Address must be at least 5 characters")
       .required("Address is required"),
     phoneNumber: Yup.string()
       .matches(/^[0-9]+$/, "Phone number must contain only numbers")
-      .min(9)
-      .max(11)
+      .min(9, "Invalid phone number")
+      .max(11, "Invalid phone number")
       .required("Phone number is required"),
   });
   const { handleChange, errors, values, touched, setFieldTouched, handleSubmit, isValid } =
@@ -97,16 +80,7 @@ const usePersonalDetails = (): PersonalDetailsFunction => {
         middleName: "",
         lastName: "",
         phoneNumber: "",
-        country: {
-          id: 0,
-          name: "",
-          countryCode: "",
-          countryFlag: "",
-          countryPhoneLength: 0,
-          shortCode: "",
-          currency: "",
-          currencySymbol: "",
-        },
+        country: "",
         address: "",
         email: "",
       },

@@ -8,6 +8,7 @@ import "react-native-reanimated";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import { store } from "@/store";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -24,39 +25,41 @@ export default function RootLayout() {
     <Provider store={store}>
       <SafeAreaProvider>
         <GestureHandlerRootView>
-          <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-            <Stack
-              screenOptions={{
-                headerTitle: "",
-                headerBackTitleVisible: false,
-                headerStyle: {
-                  backgroundColor: colorScheme === "dark" ? "#121212" : "white",
-                },
-                statusBarColor: colorScheme === "dark" ? "light" : "dark",
-                contentStyle: {
-                  backgroundColor: colorScheme === "dark" ? "#121212" : "white",
-                },
-                headerTintColor: colorScheme === "dark" ? "white" : "#121212",
-                headerLargeTitleShadowVisible: false,
-                headerLeft: ({ canGoBack }) => (
-                  <Ionicons
-                    name="arrow-back-outline"
-                    color={colorScheme === "dark" ? "white" : "black"}
-                    size={24}
-                    onPress={() => canGoBack && router.back()}
-                  />
-                ),
-              }}
-            >
-              <Stack.Screen name="index" options={{ headerShown: false }} />
-              <Stack.Screen name="login" />
-              <Stack.Screen name="(onboarding)/index" />
-              <Stack.Screen name="(onboarding)/otpVerification" />
-              <Stack.Screen name="(onboarding)/createPassword" />
-              <Stack.Screen name="(onboarding)/personalDetails" />
-              <Stack.Screen name="forgotPassword" />
-            </Stack>
-          </ThemeProvider>
+          <BottomSheetModalProvider>
+            <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+              <Stack
+                screenOptions={{
+                  headerTitle: "",
+                  headerBackTitleVisible: false,
+                  headerStyle: {
+                    backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+                  },
+                  statusBarColor: colorScheme === "dark" ? "light" : "dark",
+                  contentStyle: {
+                    backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+                  },
+                  headerTintColor: colorScheme === "dark" ? "white" : "#121212",
+                  headerLargeTitleShadowVisible: false,
+                  headerLeft: ({ canGoBack }) => (
+                    <Ionicons
+                      name="arrow-back-outline"
+                      color={colorScheme === "dark" ? "white" : "black"}
+                      size={24}
+                      onPress={() => canGoBack && router.back()}
+                    />
+                  ),
+                }}
+              >
+                <Stack.Screen name="index" options={{ headerShown: false }} />
+                <Stack.Screen name="login" />
+                <Stack.Screen name="(onboarding)/index" />
+                <Stack.Screen name="(onboarding)/otpVerification" />
+                <Stack.Screen name="(onboarding)/createPassword" />
+                <Stack.Screen name="(onboarding)/personalDetails" />
+                <Stack.Screen name="forgotPassword" />
+              </Stack>
+            </ThemeProvider>
+          </BottomSheetModalProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>
     </Provider>
