@@ -85,7 +85,7 @@ const usePersonalDetails = (): PersonalDetailsFunction => {
         address: "",
         email: "",
       },
-      onSubmit: () => router.navigate("/(onboarding)/identityVerification"),
+      onSubmit: () => router.replace("/(onboarding)/identityVerification"),
       validationSchema,
       validateOnMount: true,
     });

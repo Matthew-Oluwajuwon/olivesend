@@ -42,7 +42,7 @@ const useSendEmailVerification = (): EmailVerificationFunction => {
       initialValues: {
         email: "",
       },
-      onSubmit: () => router.navigate("/(onboarding)/otpVerification"),
+      onSubmit: () => router.replace("/(onboarding)/otpVerification"),
       validationSchema,
       validateOnMount: true,
     });

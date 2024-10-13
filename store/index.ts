@@ -1,8 +1,11 @@
 import { configureStore, ThunkAction, Action, combineReducers } from "@reduxjs/toolkit";
 import { authReducer } from "./slice/auth.slice";
+import { apiConfig, authConfig } from "./api.config";
 
 const reducer = combineReducers({
   auth: authReducer,
+  [authConfig.reducerPath]: authConfig.reducer,
+  [apiConfig.reducerPath]: apiConfig.reducer,
 });
 
 export const store = configureStore({
@@ -10,8 +13,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
       serializableCheck: false,
-      immutableCheck: false
-    }).concat();
+      immutableCheck: false,
+    }).concat(authConfig.middleware, apiConfig.middleware);
   },
 });
 
