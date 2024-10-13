@@ -1,8 +1,8 @@
 import { configureStore, ThunkAction, Action, combineReducers } from "@reduxjs/toolkit";
-import { themeReducer } from "./slice/theme";
+import { authReducer } from "./slice/auth.slice";
 
 const reducer = combineReducers({
-  theme: themeReducer,
+  auth: authReducer,
 });
 
 export const store = configureStore({

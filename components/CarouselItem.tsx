@@ -18,7 +18,7 @@ export const data = [
 export const CarouselItem = ({ indexPostion }: { indexPostion: number }) => {
   const { width } = useWindowDimensions();
   return (
-    <View className="mt-14 flex-1">
+    <View className="mt-10 flex-1">
       <Text className="font-InterBold text-2xl text-black dark:text-[#F5F5F5]">
         {data[indexPostion].text}
       </Text>

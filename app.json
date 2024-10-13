@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "olivesend",
+    "name": "Olivesend",
     "slug": "olivesend",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,7 +13,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIViewControllerBasedStatusBarAppearance": "YES"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -23,8 +26,7 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "output": "static"
     },
     "plugins": [
       "expo-router"

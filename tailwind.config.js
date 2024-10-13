@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./components/**/*.{js,jsx,ts,tsx}", "./app/**/*.{js,jsx,ts,tsx}"],
-  darkMode: "class",
+  // darkMode: "class",
   theme: {
     extend: {},
     fontFamily: {
@@ -22,9 +22,12 @@ module.exports = {
       "secondary-dark": "#5C5C5C",
     },
     borderColor: {
+      primary: "#102E34",
       white: "#FFFFFF",
       gray: "#EFEFEF",
       black: "#000000",
+      "gray-500": "#D8D8D8",
+      "dark-gray-500": "#5C5C5C",
       "light-gray": "#C9CED8",
       "secondary-dark": "#5C5C5C",
     },

@@ -9,6 +9,7 @@ import Carousel, {
 } from "react-native-reanimated-carousel";
 import { useWindowDimensions, View } from "react-native";
 import Button from "@/components/Button";
+import { router } from "expo-router";
 
 export default function Index() {
   const { width } = useWindowDimensions()
@@ -33,15 +34,14 @@ export default function Index() {
     ),
   } as TCarouselProps;
   const buttonWidth = width / 2 - 20
-
   
   return (
-    <SafeAreaView className="flex-1 px-3 dark:bg-[#121212]">
+    <SafeAreaView className="flex-1 px-3">
       <CarouselIndicator indexPostion={index} />
       <Carousel {...baseOptions} />
       <View className="flex-row justify-center gap-3">
-        <Button type="primary" style={{width: buttonWidth}}>Log in</Button>
-        <Button type="default" style={{width: buttonWidth}}>Sign up</Button>
+        <Button type="primary" onPress={() => router.navigate("/login")} style={{width: buttonWidth}}>Log in</Button>
+        <Button type="default" onPress={() => router.navigate("/(onboarding)")} style={{width: buttonWidth}}>Sign up</Button>
       </View>
     </SafeAreaView>
   );

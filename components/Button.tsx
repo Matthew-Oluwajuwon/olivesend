@@ -22,9 +22,9 @@ const Button: React.FC<ButtonProps> = (props) => {
       <TouchableOpacity
         {...rest}
         className={`bg-primary dark:bg-white p-3 px-7 rounded-full flex-row justify-center items-center ${
-          loading && "opacity-50"
+          (loading || props.disabled) && "opacity-50"
         } ${className}`}
-        disabled={loading}
+        // disabled={loading || props.disabled}
       >
         {loading && <ActivityIndicator className="mr-2" />}
         <Text {...textProps} className="font-InterMedium text-white dark:text-black text-center">
