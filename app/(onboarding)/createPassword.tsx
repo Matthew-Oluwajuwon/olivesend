@@ -10,7 +10,7 @@ import Button from "@/components/Button";
 import PasswordCheckerBar from "@/components/PasswordCheckerBar";
 
 const CreatePassword = () => {
-  const { errors, values, touched, disabled, handleChange, handleSubmit, setFieldTouched } =
+  const { errors, values, touched, disabled, loading, handleChange, handleSubmit, setFieldTouched } =
     useCreatePassword();
   const { colorScheme } = useColorScheme();
   const [isPasswordToggled, setIsPasswordToggled] = useState(false);
@@ -56,6 +56,7 @@ const CreatePassword = () => {
             type="primary"
             className="absolute bottom-7 w-full"
             disabled={disabled}
+            loading={loading}
             onPress={() => handleSubmit()}
           >
             Continue

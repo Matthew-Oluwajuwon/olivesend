@@ -72,7 +72,7 @@ const useOtpVerification = (): EmailVerificationFunction => {
         router.navigate("/(onboarding)/createPassword"); // Navigate to the create password page
       } else {
         // If the response is unsuccessful, show an error toast with the message
-        showToast("error", "Error occured", apiResponse.message || "An unknown error occurred");
+        showToast("error", "Error occured", apiResponse.message || apiResponse.responseMessage || "An unknown error occurred");
       }
     } catch (error: any) {
       // If an error occurs during the request, show a generic error toast

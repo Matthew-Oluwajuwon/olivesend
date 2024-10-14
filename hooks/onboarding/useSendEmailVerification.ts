@@ -66,7 +66,7 @@ const useSendEmailVerification = (): EmailVerificationFunction => {
         router.navigate("/(onboarding)/otpVerification"); // Navigate to OTP verification screen
       } else {
         // If the response code is not "00", show an error toast with the response message
-        showToast("error", "Error occured", apiResponse.message || "An unknown error occured");
+        showToast("error", "Error occured", apiResponse.message || apiResponse.responseMessage || "An unknown error occured");
       }
     } catch (error: any) {
       // If an error occurs during the request, show a generic error toast

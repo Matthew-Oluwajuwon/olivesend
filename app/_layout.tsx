@@ -56,7 +56,13 @@ export default function RootLayout() {
                 <Stack.Screen name="(onboarding)/index" />
                 <Stack.Screen name="(onboarding)/otpVerification" />
                 <Stack.Screen name="(onboarding)/createPassword" />
-                <Stack.Screen name="(onboarding)/personalDetails" />
+                <Stack.Screen
+                  name="(onboarding)/personalDetails"
+                  options={{
+                    gestureEnabled: false,
+                    headerBackVisible: false,
+                  }}
+                />
                 <Stack.Screen
                   name="(onboarding)/identityVerification"
                   options={{

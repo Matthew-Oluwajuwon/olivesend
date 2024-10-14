@@ -3,5 +3,8 @@ export const endpoints = {
        verifyMail: "auth/verifyEmail",
        otpVerification: "auth/otp-verification",
        createPassword: "auth/createPassword"
+    },
+    utils: {
+        getCountries: "utils/getCountries"
     }
 };

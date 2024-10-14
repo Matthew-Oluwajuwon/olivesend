@@ -19,6 +19,7 @@ export const authConfig = createApi({
         url: state.postUrl,
         method: state.formMethod,
         body: state.request,
+        headers: state.headers || undefined
       }),
     }),
   }),

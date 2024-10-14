@@ -1,3 +1,8 @@
+import { Auth } from "@/models/application/state";
+import { Countries } from "@/models/client/response";
+import { useGetUnsecureDataQuery } from "@/store/api.config";
+import { endpoints } from "@/store/endpoints";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { router } from "expo-router";
 import { FormikErrors, FormikTouched, useFormik } from "formik";
 import * as Yup from "yup";
@@ -51,9 +56,19 @@ export interface PersonalDetailsFunction {
           phoneNumber: string;
         }>
       >;
+  state: Auth;
+  countries: Array<Countries>
+  loadingCountries: boolean;
 }
 
 const usePersonalDetails = (): PersonalDetailsFunction => {
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => {
+    return state.auth;
+  });
+  const { data, isFetching } = useGetUnsecureDataQuery({
+    getUrl: endpoints.utils.getCountries
+  })
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
       .matches(/^[^0-9]*$/, "First name must not contain numbers")
@@ -98,6 +113,9 @@ const usePersonalDetails = (): PersonalDetailsFunction => {
     errors,
     values,
     disabled: !isValid,
+    state,
+    countries: Array.isArray(data?.data) ? data?.data : [],
+    loadingCountries: isFetching
   };
 };
 

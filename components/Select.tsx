@@ -9,6 +9,8 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { BottomSheetModal, useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { useColorScheme } from "nativewind";
@@ -27,6 +29,7 @@ interface SelectProps {
   label?: string; // Label for the Select component
   labelProps?: object; // Additional props for the label if needed
   value?: string | number; // Selected value
+  loading?: boolean;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -36,6 +39,7 @@ const Select: React.FC<SelectProps> = ({
   label,
   value,
   labelProps = {},
+  loading,
 }) => {
   const [selectedOption, setSelectedOption] = useState<Option | null>(null); // Store full selected option
   const [searchQuery, setSearchQuery] = useState<string>(""); // State to manage the search input
@@ -55,9 +59,9 @@ const Select: React.FC<SelectProps> = ({
     []
   );
 
-   // Update selectedOption when value prop changes
-   useEffect(() => {
-    const selected = options.find(option => option.value === value);
+  // Update selectedOption when value prop changes
+  useEffect(() => {
+    const selected = options.find((option) => option.value === value);
     setSelectedOption(selected || null);
   }, [value, options]);
 
@@ -87,7 +91,7 @@ const Select: React.FC<SelectProps> = ({
 
       {/* Input field */}
       <TouchableOpacity
-        className="border rounded-[20px] p-4 border-gray-500 dark:border-dark-gray-500"
+        className="border rounded-[20px] flex-row justify-between p-4 border-gray-500 dark:border-dark-gray-500"
         onPress={() => bottomSheetModalRef.current?.present()} // Open the bottom sheet when tapped
       >
         <Text className="text-black dark:text-[#F5F5F5]">
@@ -105,6 +109,7 @@ const Select: React.FC<SelectProps> = ({
             placeholder
           )}
         </Text>
+        {loading && <ActivityIndicator color={colorScheme === "dark" ? "white" : "black"} />}
       </TouchableOpacity>
 
       {/* Bottom Sheet Modal for Dropdown */}
@@ -116,7 +121,11 @@ const Select: React.FC<SelectProps> = ({
         animateOnMount
         containerStyle={{ backgroundColor: "#00000050" }}
         backdropComponent={() => (
-          <Pressable onPress={handleDismiss} className="absolute inset-0 bg-black opacity-50" />
+          <Pressable
+            onPress={handleDismiss}
+            style={styles.backdrop}
+            className="absolute inset-0 bg-black opacity-50"
+          />
         )}
         ref={bottomSheetModalRef}
         index={0} // Start from the bottom (collapsed)
@@ -168,5 +177,10 @@ const Select: React.FC<SelectProps> = ({
     </View>
   );
 };
+const styles = StyleSheet.create({
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
 
 export default React.memo(Select);
