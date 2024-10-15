@@ -7,9 +7,10 @@ interface PINProps {
   onPress: (value: string) => void;
   buttonName: string;
   pinTitle: string;
+  loading?: boolean;
 }
 
-const PIN: React.FC<PINProps> = ({ buttonName, pinTitle, onPress }) => {
+const PIN: React.FC<PINProps> = ({ buttonName, pinTitle, loading, onPress }) => {
   const [pin, setPin] = useState("");
 
   const handlePress = (value: any) => {
@@ -111,6 +112,7 @@ const PIN: React.FC<PINProps> = ({ buttonName, pinTitle, onPress }) => {
           disabled={pin.length !== 4}
           onPress={() => onPress(pin)}
           textProps={{ className: "text-[#102E34]" }}
+          loading={loading}
         >
           {buttonName}
         </Button>

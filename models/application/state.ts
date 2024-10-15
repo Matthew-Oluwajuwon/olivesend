@@ -1,5 +1,7 @@
-import { PasswordRequest, VerifyEmail } from "../client/request";
+import { PasswordRequest, PinRequest, VerifyEmail } from "../client/request";
+import { LoginResponse } from "../client/response";
 
+export type DocType = "NATIONAL_ID_CARD" | "INTERNATIONAL_PASSPORT" | "DRIVER_LICENSE" | undefined;
 export interface Auth {
   hasNumber: boolean;
   isLowerCase: boolean;
@@ -12,4 +14,9 @@ export interface Auth {
   imageBase64: string;
   mimeType: string;
   token: string;
+  loginResponse: LoginResponse;
+  loginType: "PASSWORD" | "PIN";
+  documentType: DocType;
+  pinRequest: PinRequest;
+  showSuccessOnboarding: boolean;
 }

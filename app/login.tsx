@@ -1,4 +1,4 @@
-import { View, Text, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import React, { useState } from "react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
@@ -9,7 +9,7 @@ import { useColorScheme } from "nativewind";
 import OnboardingHeader from "@/components/OnboardingHeader";
 
 const Login = () => {
-  const { errors, values, touched, disabled, setFieldTouched, handleChange } = useLogin();
+  const { errors, values, touched, disabled, loading, setFieldTouched, handleChange, handleSubmit } = useLogin();
   const { colorScheme } = useColorScheme();
   const [isPasswordToggled, setIsPasswordToggled] = useState(false);
 
@@ -67,7 +67,13 @@ const Login = () => {
               Forgot Password?
             </Link>
           </View>
-          <Button type="primary" className="absolute bottom-7 w-full" disabled={disabled}>
+          <Button
+            type="primary"
+            className="absolute bottom-7 w-full"
+            loading={loading}
+            disabled={disabled}
+            onPress={() => handleSubmit()}
+          >
             Login
           </Button>
         </View>

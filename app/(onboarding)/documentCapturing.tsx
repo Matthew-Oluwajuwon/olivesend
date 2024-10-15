@@ -6,7 +6,7 @@ import { useDocumentCapture } from "@/hooks";
 import { StatusBar } from "expo-status-bar";
 
 const DocumentCapture = () => {
-  const { openAppSettings, takePicture, setCamera, pickDocument, hasPermission } = useDocumentCapture();
+  const { openAppSettings, takePicture, setCamera, uploadFile, hasPermission } = useDocumentCapture();
 
   return (
     <View className="flex-1 justify-center items-center bg-[#3E3E3E] relative">
@@ -35,7 +35,7 @@ const DocumentCapture = () => {
       <Text className="text-2xl text-[#F5F5F5] font-InterBold text-center w-[80%] mx-auto my-10">
         Position the front of your document in the frame
       </Text>
-      <Pressable onPress={pickDocument} className="border border-white rounded-full py-4 px-5 self-center mb-10">
+      <Pressable onPress={uploadFile} className="border border-white rounded-full py-4 px-5 self-center mb-10">
         <Text className="text-center text-[#F5F5F5] font-InterBold">Or upload a document</Text>
       </Pressable>
       <TouchableOpacity

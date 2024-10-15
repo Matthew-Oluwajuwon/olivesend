@@ -68,6 +68,7 @@ export default function RootLayout() {
                   options={{
                     headerBackVisible: false,
                     headerLeft: undefined,
+                    gestureEnabled: false,
                   }}
                 />
                 <Stack.Screen
@@ -99,6 +100,7 @@ export default function RootLayout() {
                   options={{
                     headerBackVisible: false,
                     headerLeft: undefined,
+                    gestureEnabled: false,
                     headerStyle: {
                       backgroundColor: "#102E34",
                     },

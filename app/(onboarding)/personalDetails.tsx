@@ -32,6 +32,7 @@ const PersonalDetails = () => {
     state,
     values,
     disabled,
+    loading
   } = usePersonalDetails();
   const bottomSheetModalRef = useRef<BottomSheetModalMethods>(null);
   const navigation = useNavigation();
@@ -154,6 +155,7 @@ const PersonalDetails = () => {
                 type="primary"
                 className="w-full"
                 disabled={disabled}
+                loading={loading}
                 onPress={() => handleSubmit()}
               >
                 Continue

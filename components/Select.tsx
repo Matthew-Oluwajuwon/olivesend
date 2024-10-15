@@ -142,7 +142,7 @@ const Select: React.FC<SelectProps> = ({
               value={searchQuery}
               onChangeText={setSearchQuery}
               placeholder="Search..."
-              className="border border-gray-500 dark:border-dark-gray-500 rounded-[20px] p-3"
+              className="border border-gray-500 dark:border-dark-gray-500 rounded-[20px] dark:text-white p-3"
             />
 
             {/* FlatList directly inside the BottomSheetModal */}

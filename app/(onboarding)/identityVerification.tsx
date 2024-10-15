@@ -9,16 +9,19 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { SvgXml } from "react-native-svg";
 import Flower from "@/components/Flower";
 import { router } from "expo-router";
+import { DocType } from "@/models/application/state";
+import { useDocumentCapture } from "@/hooks";
 
 interface DataProp {
   icon: any;
   title: string;
   description: string;
-  type: "NATIONAL_ID_CARD" | "INTERNATIONAL_PASSPORT" | "DRIVER_LICENSE";
+  type: DocType
 }
 
 const IdentityVerification = () => {
   const { colorScheme } = useColorScheme();
+  const { pickDocType } = useDocumentCapture()
   const data: DataProp[] = [
     {
       icon: nationalIdSvg({ color: colorScheme === "light" ? "#000000" : "#f5f5f5" }),
@@ -43,12 +46,13 @@ const IdentityVerification = () => {
       type: "DRIVER_LICENSE",
     },
   ];
+  
   return (
     <View className="px-5 mt-3 flex-1 relative">
       <OnboardingHeader title="Verify your identity" description="" />
       <View className="flex-1 mt-10">
         {data.map((item, index) => (
-          <TouchableOpacity key={index} onPress={() => router.navigate("/(onboarding)/documentCapturing")} className="flex-row justify-between items-center mb-12">
+          <TouchableOpacity key={index} onPress={() => pickDocType(item.type)} className="flex-row justify-between items-center mb-12">
             <View className="flex-row items-center">
               <SvgXml width="20" height="20" xml={item.icon} />
               <View className="gap-3 ml-3">
@@ -77,7 +81,7 @@ const IdentityVerification = () => {
           </TouchableOpacity>
         ))}
       </View>
-      <Pressable className="self-center mb-10">
+      <Pressable className="self-center mb-10" onPress={() => router.navigate("/(onboarding)/createPIN")}>
         <Text className="dark:text-white text-center">I'll do this later</Text>
       </Pressable>
       <Flower />

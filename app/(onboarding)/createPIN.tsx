@@ -1,4 +1,5 @@
 import PIN from "@/components/PIN";
+import usePinCreation from "@/hooks/onboarding/usePinCreation";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
@@ -7,10 +8,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const CreatePIN = () => {
   const { bottom } = useSafeAreaInsets();
-  const onContinue = (value: string) => {
-    router.navigate("/(onboarding)/confirmPIN");
-    console.log(value);
-  };
+  const { onContinue } = usePinCreation()
+
   return (
     <View className="px-5 mt-3 flex-1 relative bg-[#102E34]">
       <StatusBar style="light" />
@@ -20,7 +19,11 @@ const CreatePIN = () => {
       </Text>
       <View className="flex-1">
         <PIN onPress={onContinue} buttonName="Continue" pinTitle="Enter PIN" />
-        <Pressable className="self-center" style={{ marginBottom: bottom }}>
+        <Pressable
+          className="self-center"
+          style={{ marginBottom: bottom }}
+          onPress={() => router.navigate("/login")}
+        >
           <Text className="text-white text-center">I'll do this later</Text>
         </Pressable>
       </View>

@@ -8,6 +8,8 @@ import { AppPayload } from "@/models/application/payload";
 import { router } from "expo-router";
 import Pdf from "react-native-pdf";
 import { StatusBar } from "expo-status-bar";
+import { useDocumentCapture } from "@/hooks";
+import Loader from "@/components/Loader";
 
 const ViewCapturedDoc = () => {
   const dispatch = useAppDispatch();
@@ -15,10 +17,17 @@ const ViewCapturedDoc = () => {
     return state.auth;
   });
 
+  const { loading, onVerifyIdentity } = useDocumentCapture()
+
   const onRetakePhoto = useCallback(() => {
     router.back();
     dispatch(setAuthState(new AppPayload("imageBase64", "")));
+    dispatch(setAuthState(new AppPayload("mimeType", "")));
   }, [dispatch]);
+
+  if (loading) {
+    return <Loader message="Please wait while we upload your document to the server." />
+  }
  
   return (
     <View className="px-5 mt-3 flex-1 relative">
@@ -41,7 +50,7 @@ const ViewCapturedDoc = () => {
           Make sure your details are clear and unobstructed
         </Text>
         <View className="absolute bottom-10 w-full">
-          <Button type="primary" onPress={() => router.navigate("/(onboarding)/createPIN")} className="w-full">
+          <Button type="primary" onPress={onVerifyIdentity} className="w-full">
             Submit photo
           </Button>
           <Pressable className="self-center mx-auto mt-5" onPress={onRetakePhoto}>

@@ -2,7 +2,7 @@ export class API<T> {
   responseCode: string = "";
   responseMessage: string = "";
   message: string = "";
-  data: T | undefined;
+  data: T = {} as T;
 }
 
 export class Countries {
@@ -15,3 +15,12 @@ export class Countries {
   currency: string = "";
   currencySymbol: string = "";
 }
+
+export class LoginResponse {
+    token: string = ""
+    refreshToken: string = ""
+    isProfileCompleted: boolean = false
+    isDocumentUploaded: boolean = false
+    isPinCreated: boolean = false
+  }
+  

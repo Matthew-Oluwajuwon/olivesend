@@ -10,9 +10,10 @@ interface EndSessionProps {
 }
 
 const EndSession: React.FC<EndSessionProps> = ({ bottomSheetModalRef }) => {
+
   return (
     <Modal bottomSheetModalRef={bottomSheetModalRef} snapPoint={["35%"]}>
-      <View className="self-center my-5 w-[65%]">
+      <View className="self-center my-5 w-[70%]">
         <Text className="dark:text-white font-InterBold text-xl text-center">
           Are you sure you want to end this session?
         </Text>
@@ -31,7 +32,7 @@ const EndSession: React.FC<EndSessionProps> = ({ bottomSheetModalRef }) => {
         <Button
           type="primary"
           className="w-[43%]"
-          onPress={() => router.replace("/login")}
+          onPress={() => router.replace("/login?disabledBack=true")}
         >
           Yes
         </Button>

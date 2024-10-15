@@ -1,6 +1,7 @@
 import { AppPayload } from "@/models/application/payload";
 import { Auth } from "@/models/application/state";
-import { PasswordRequest, VerifyEmail } from "@/models/client/request";
+import { PasswordRequest, PinRequest, VerifyEmail } from "@/models/client/request";
+import { LoginResponse } from "@/models/client/response";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: Auth = {
@@ -14,7 +15,12 @@ const initialState: Auth = {
   imageBase64: "",
   mimeType: "",
   verifyEmailRequest: new VerifyEmail(),
-  token: ""
+  token: "",
+  loginResponse: new LoginResponse(),
+  loginType: "PASSWORD",
+  documentType: undefined,
+  pinRequest: new PinRequest(),
+  showSuccessOnboarding: false
 };
 
 const authSlice = createSlice({
