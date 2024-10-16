@@ -32,7 +32,7 @@ const EndSession: React.FC<EndSessionProps> = ({ bottomSheetModalRef }) => {
         <Button
           type="primary"
           className="w-[43%]"
-          onPress={() => router.replace("/login?disabledBack=true")}
+          onPress={() => router.replace("/login")}
         >
           Yes
         </Button>
