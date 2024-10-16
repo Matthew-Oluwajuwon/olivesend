@@ -16,7 +16,7 @@ import {
   MaskSymbol,
   isLastFilledCell,
 } from "react-native-confirmation-code-field";
-import { useOtpVerification } from "@/hooks";
+import { useOtpVerification, useSendEmailVerification, useTimer } from "@/hooks";
 import { useColorScheme } from "nativewind";
 import Button from "@/components/Button";
 import Flower from "@/components/Flower";
@@ -25,9 +25,9 @@ import { useAppSelector } from "@/store/hooks";
 const CELL_COUNT = 6;
 
 const OtpVerification = () => {
-  const state = useAppSelector(state => {
-    return state.auth
-  })
+  const state = useAppSelector((state) => {
+    return state.auth;
+  });
   const { colorScheme } = useColorScheme();
   const { errors, values, disabled, loading, handleChange, handleSubmit, setFieldTouched } =
     useOtpVerification();
@@ -37,6 +37,8 @@ const OtpVerification = () => {
     value,
     setValue,
   });
+  const { resetTimer, timeRemaining } = useTimer();
+  const { onSendMail } = useSendEmailVerification();
   const styles = StyleSheet.create({
     codeFieldRoot: {
       flexDirection: "row",
@@ -66,11 +68,10 @@ const OtpVerification = () => {
     },
   });
 
-  const email = state.verifyEmailRequest?.email
+  const email = state.verifyEmailRequest?.email;
   const atIndex = email.indexOf("@");
   const charactersBeforeAt = email.slice(0, atIndex);
-  const maskedEmail =
-    "****" + charactersBeforeAt.slice(-2) + email.slice(atIndex);
+  const maskedEmail = "****" + charactersBeforeAt.slice(-2) + email.slice(atIndex);
 
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
@@ -127,9 +128,18 @@ const OtpVerification = () => {
           {errors.otp && values.otp && (
             <Text className={`text-red-500 mt-2 ml-3`}>{errors.otp}</Text>
           )}
-          <Pressable>
+          <Pressable
+            onPress={() => {
+              if (timeRemaining === 0) {
+                resetTimer();
+                onSendMail({ email: state.verifyEmailRequest?.email });
+              }
+            }}
+          >
             <Text className="text-black dark:text-white underline font-InterBold text-sm text-center mt-5">
-              Didn’t receive code? Resend
+              {timeRemaining > 0
+                ? `Resend code in ${timeRemaining} secs`
+                : "Didn't receive code? Resend"}
             </Text>
           </Pressable>
           <Button

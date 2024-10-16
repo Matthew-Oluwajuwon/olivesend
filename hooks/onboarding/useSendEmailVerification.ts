@@ -30,11 +30,13 @@ export interface EmailVerificationFunction {
   ) => Promise<void> | Promise<FormikErrors<{ email: string }>>; // Marks a field as touched
   handleSubmit: (e?: React.FormEvent<HTMLFormElement>) => void; // Handles form submission
   loading: boolean; // Tracks loading state for form submission
+  onSendMail: ({ email }: { email?: string }) => Promise<void>;
 }
 
 // Custom hook to handle email verification functionality
 const useSendEmailVerification = (): EmailVerificationFunction => {
   const dispatch = useAppDispatch(); // Get Redux dispatch function to update global state
+
   const [sendMail, response] = useMutateUnsecureDataMutation(); // Hook to send unsecure data (API request)
   const { showToast } = useToast(); // Custom hook to display toast messages
 
@@ -46,33 +48,41 @@ const useSendEmailVerification = (): EmailVerificationFunction => {
   });
 
   // Function to send verification email when the form is submitted
-  const onSendMail = useCallback(async () => {
-    try {
-      // API call to send email verification
-      const response: any = await sendMail({
-        postUrl: endpoints.auth.verifyMail, // Endpoint to send email verification
-        formMethod: "POST", // HTTP method (POST)
-        request: values, // The form values (email)
-      });
+  const onSendMail = useCallback(
+    async ({ email }: { email?: string }) => {
+      try {
+        // API call to send email verification
+        const response: any = await sendMail({
+          postUrl: endpoints.auth.verifyMail, // Endpoint to send email verification
+          formMethod: "POST", // HTTP method (POST)
+          request: { email } || values, // The form values (email)
+        });
 
-      // Handle the API response and display relevant messages
-      const apiResponse: API<any> = response.error?.data || response.data; // Get the response data
-      if (apiResponse.responseCode === "00") {
-        // If the response code is "00", show success toast and navigate to the OTP verification screen
-        showToast("success", apiResponse.responseMessage, "Mail sent successfully");
-        // Dispatch an action to update auth state in Redux (mark email verification as requested)
-        dispatch(setAuthState(new AppPayload("verifyEmailRequest", { email: values.email })));
-        resetForm(); // Reset the form after successful submission
-        router.navigate("/(onboarding)/otpVerification"); // Navigate to OTP verification screen
-      } else {
-        // If the response code is not "00", show an error toast with the response message
-        showToast("error", "Error occured", apiResponse.message || apiResponse.responseMessage || "An unknown error occured");
+        // Handle the API response and display relevant messages
+        const apiResponse: API<any> = response.error?.data || response.data; // Get the response data
+        if (apiResponse.responseCode === "00") {
+          // If the response code is "00", show success toast and navigate to the OTP verification screen
+          showToast("success", apiResponse.responseMessage, "Mail sent successfully");
+          // Dispatch an action to update auth state in Redux (mark email verification as requested)
+          dispatch(setAuthState(new AppPayload("verifyEmailRequest", { email: values.email || email as string })));
+          
+          resetForm(); // Reset the form after successful submission
+          router.navigate("/(onboarding)/otpVerification"); // Navigate to OTP verification screen
+        } else {
+          // If the response code is not "00", show an error toast with the response message
+          showToast(
+            "error",
+            "Error occured",
+            apiResponse.message || apiResponse.responseMessage || "An unknown error occured"
+          );
+        }
+      } catch (error: any) {
+        // If an error occurs during the request, show a generic error toast
+        showToast("error", "Error occured", error.message || "An unknown error occured");
       }
-    } catch (error: any) {
-      // If an error occurs during the request, show a generic error toast
-      showToast("error", "Error occured", error.message || "An unknown error occured");
-    }
-  }, [showToast, sendMail, dispatch]); // Depend on showToast, sendMail, dispatch
+    },
+    [showToast, sendMail, dispatch]
+  ); // Depend on showToast, sendMail, dispatch
 
   // Formik hook to manage form state, validation, and submission
   const {
@@ -98,6 +108,7 @@ const useSendEmailVerification = (): EmailVerificationFunction => {
     handleChange, // Function to handle input change
     setFieldTouched, // Function to mark a field as touched
     handleSubmit, // Function to handle form submission
+    onSendMail, // Function to handle sending of mail
     touched, // Tracks touched fields
     errors, // Tracks validation errors
     values, // Form values

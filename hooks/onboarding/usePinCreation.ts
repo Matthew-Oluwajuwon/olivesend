@@ -47,7 +47,7 @@ const usePinCreation = (): PinCreationFunction => {
         // If the response code indicates success
         if (apiResponse.responseCode === "00") {
           // Show success toast and reset the form
-          showToast("success", apiResponse.responseMessage, "Profile completed successfully");
+          showToast("success", apiResponse.responseMessage, "PIN created successfully");
 
           dispatch(setAuthState(new AppPayload("showSuccessOnboarding", true)));
         } else {

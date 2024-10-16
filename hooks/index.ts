@@ -7,6 +7,7 @@ import useSendEmailVerification from "./onboarding/useSendEmailVerification";
 import { useAuthQuery } from "./useAuthQuery";
 import useLogin from "./useLogin";
 import useScreenInitialize from "./useScreenInitialize";
+import useTimer from "./useTimer";
 
 export {
   useLogin,
@@ -17,5 +18,6 @@ export {
   useAuthQuery,
   usePersonalDetails,
   useDocumentCapture,
-  usePinCreation
+  usePinCreation,
+  useTimer
 };
