@@ -1,12 +1,17 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { ScrollView } from "react-native";
+import React from "react";
+import { StatusBar } from "expo-status-bar";
 
 const Send = () => {
-  return (
-    <View>
-      <Text>Send</Text>
-    </View>
-  )
-}
 
-export default Send
+    return (
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      className="bg-[#002026] dark:bg-primary-dark flex-1"
+    >
+      <StatusBar style="light" />
+    </ScrollView>
+  );
+};
+
+export default Send;

@@ -1,7 +1,6 @@
 import React from "react";
-import { Image, Text } from "react-native";
+import { Image } from "react-native";
 import { Tabs } from "expo-router";
-import { FontAwesome } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 
 export default function TabLayout() {
@@ -16,6 +15,28 @@ export default function TabLayout() {
             color:
               colorScheme === "light" ? "#000000" : colorScheme == "dark" ? "#f5f5f5" : "#888888",
             fontSize: 12,
+          },
+          headerTitle: () => (
+            <Image
+              source={require("@/assets/images/logo.png")}
+              style={{ width: 100, height: 30, marginBottom: 10 }}
+              resizeMode="contain"
+            />
+          ),
+          headerLeft: () => (
+            <Image
+              source={
+                colorScheme === "light" ? require("@/assets/images/headerShadow.png") : undefined
+              }
+              resizeMode="contain"
+            />
+          ),
+          headerRight: () => (
+            <Image source={require("@/assets/icons/notification.png")} className="mr-5" resizeMode="contain" />
+          ),
+          headerStyle: {
+            backgroundColor: colorScheme === "dark" ? "#121212" : "#002026",
+            shadowColor: "#92CCBF1A",
           },
           tabBarIcon: ({ focused }) => (
             <Image

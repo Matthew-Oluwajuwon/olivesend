@@ -1,12 +1,16 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
+import { StatusBar } from 'expo-status-bar'
 
-const account = () => {
+const Account = () => {
   return (
-    <View>
-      <Text>account</Text>
-    </View>
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      className="bg-[#FFFFFF] dark:bg-primary-dark flex-1"
+    >
+      <StatusBar style="auto" />
+    </ScrollView>
   )
 }
 
-export default account
+export default Account

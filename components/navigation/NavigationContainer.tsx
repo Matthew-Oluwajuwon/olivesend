@@ -14,7 +14,7 @@ const NavigationContainer = () => {
   useEffect(() => {
     const inAuthGroup = segments[0] === "(tabs)";
     if (state.isAuthenticated && !inAuthGroup) {
-      router.replace("/(tabs)");
+      router.replace("/(tabs)/(send)");
     } else if (!state.isAuthenticated && inAuthGroup) {
       router.replace("/");
     }
@@ -28,7 +28,6 @@ const NavigationContainer = () => {
         headerStyle: {
           backgroundColor: colorScheme === "dark" ? "#121212" : "white",
         },
-        // statusBarColor: colorScheme === "dark" ? "light" : "dark",
         contentStyle: {
           backgroundColor: colorScheme === "dark" ? "#121212" : "white",
         },
@@ -118,7 +117,7 @@ const NavigationContainer = () => {
       <Stack.Screen name="(forgotPassword)/index" />
       <Stack.Screen name="(forgotPassword)/otpVerification" />
       <Stack.Screen name="(forgotPassword)/createPassword" />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false, gestureEnabled: false }} />
     </Stack>
   );
 };
