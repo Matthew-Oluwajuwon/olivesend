@@ -7,6 +7,7 @@ export const endpoints = {
     login: "auth/login",
     verifyIdentity: "auth/verifyIdentity",
     createPin: "auth/createPin",
+    getUserInfo: "auth/getUserInfo"
   },
   forgotPassword: {
     verifyMail: "auth/sendEmailForPasswordChange",

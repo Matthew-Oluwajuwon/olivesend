@@ -17,10 +17,35 @@ export class Countries {
 }
 
 export class LoginResponse {
-    token: string = ""
-    refreshToken: string = ""
-    isProfileCompleted: boolean = false
-    isDocumentUploaded: boolean = false
-    isPinCreated: boolean = false
-  }
-  
+  token: string = "";
+  refreshToken: string = "";
+  isProfileCompleted: boolean = false;
+  isDocumentUploaded: boolean = false;
+  isPinCreated: boolean = false;
+}
+
+export class UserInfo {
+  id: number = 0;
+  userId: number = 0;
+  email: string = "";
+  firstName: string = "";
+  lastName: string = "";
+  middleName: string = "";
+  phoneNumber: string = "";
+  address: string = "";
+  country: string = "";
+  pins: string = "";
+  identityType: any;
+  documentType: string = "";
+  enabledBiometrics: boolean = false;
+  declineReason: any;
+  createdAt: string = "";
+  updatedAt: string = "";
+  tier: Tier = new Tier();
+}
+
+export class Tier {
+  name: string = "";
+  limit: number = 0;
+  singleTransactionLimit: number = 0;
+}

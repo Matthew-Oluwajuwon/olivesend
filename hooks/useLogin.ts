@@ -1,4 +1,4 @@
-import { useMutateUnsecureDataMutation } from "@/store/api.config"; // API hook to perform mutation on unsecured data (e.g., login)
+import { useLazyGetUnsecureDataQuery, useMutateUnsecureDataMutation } from "@/store/api.config"; // API hook to perform mutation on unsecured data (e.g., login)
 import { useAppDispatch, useAppSelector } from "@/store/hooks"; // Hooks to access Redux store dispatch and state
 import { FormikErrors, FormikTouched, useFormik } from "formik"; // Formik utilities for form management
 import * as Yup from "yup"; // Validation schema library
@@ -7,8 +7,9 @@ import { useCallback } from "react"; // React hook to memoize functions
 import { endpoints } from "@/store/endpoints"; // API endpoints configuration
 import { router } from "expo-router"; // Expo router for screen navigation
 import { AppPayload } from "@/models/application/payload"; // Custom model for payload management in the app
-import { API, LoginResponse } from "@/models/client/response"; // API response models
+import { API, LoginResponse, UserInfo } from "@/models/client/response"; // API response models
 import { setAuthState } from "@/store/slice"; // Redux action to set authentication state
+import { useSecureStore } from "./useSecureStore";
 
 // Interface defining the structure of the LoginFunction
 export interface LoginFunction {
@@ -52,7 +53,9 @@ const useLogin = (): LoginFunction => {
   });
 
   const [login, response] = useMutateUnsecureDataMutation(); // Hook to make the login API call
+  const [getUserInfo, result] = useLazyGetUnsecureDataQuery();
   const { showToast } = useToast(); // Custom hook to show toast notifications
+  const { setItem } = useSecureStore();
 
   // Callback function to handle the login process when the form is submitted
   const onLogin = useCallback(async () => {
@@ -75,8 +78,33 @@ const useLogin = (): LoginFunction => {
         dispatch(setAuthState(new AppPayload("loginResponse", apiResponse.data)));
         dispatch(setAuthState(new AppPayload("token", apiResponse.data?.token)));
         dispatch(setAuthState(new AppPayload("verifyEmailRequest", { email: values.email })));
+        await setItem("token", apiResponse.data?.token);
         resetForm(); // Reset the form fields
 
+        try {
+          const userInfoResponse = await getUserInfo({
+            getUrl: endpoints.auth.getUserInfo,
+            headers: {
+              Authorization: `Bearer ${apiResponse.data?.token}`,
+            },
+          });
+
+          const userInfoData: API<UserInfo> = response.error?.data || response.data;
+
+          if (userInfoData.responseCode === "00") {
+            await setItem("userInfo", JSON.stringify(userInfoData.data));
+            dispatch(setAuthState(new AppPayload("isAuthenticated", true)));
+          } else {
+            showToast(
+              "error",
+              "Error occurred",
+              userInfoData.message || userInfoData.responseMessage || "An unknown error occurred"
+            );
+          }
+        } catch (error: any) {
+          // Handle any unexpected errors and show a generic error toast
+          showToast("error", "Error occurred", error.message || "An unknown error occurred");
+        }
         // Check if the user has completed their profile, documents, and PIN setup
         if (!apiResponse.data?.isProfileCompleted) {
           return router.navigate("/(onboarding)/personalDetails"); // Navigate to personal details screen

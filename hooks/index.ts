@@ -10,6 +10,7 @@ import useSendEmailVerification from "./onboarding/useSendEmailVerification";
 import { useAuthQuery } from "./useAuthQuery";
 import useLogin from "./useLogin";
 import useScreenInitialize from "./useScreenInitialize";
+import { useSecureStore } from "./useSecureStore";
 import useTimer from "./useTimer";
 
 export {
@@ -25,5 +26,6 @@ export {
   useTimer,
   useSendForgotPasswordEmail,
   useVerifyOtp,
-  useResetPassword
+  useResetPassword,
+  useSecureStore
 };

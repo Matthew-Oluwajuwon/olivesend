@@ -19,4 +19,5 @@ export interface Auth {
   documentType: DocType;
   pinRequest: PinRequest;
   showSuccessOnboarding: boolean;
+  isAuthenticated: boolean;
 }

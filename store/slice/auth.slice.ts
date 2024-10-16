@@ -20,7 +20,8 @@ const initialState: Auth = {
   loginType: "PASSWORD",
   documentType: undefined,
   pinRequest: new PinRequest(),
-  showSuccessOnboarding: false
+  showSuccessOnboarding: false,
+  isAuthenticated: false
 };
 
 const authSlice = createSlice({
