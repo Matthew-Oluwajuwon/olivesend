@@ -34,7 +34,7 @@ export interface EmailVerificationFunction {
 }
 
 // Custom hook to handle email verification functionality
-const useSendEmailVerification = (): EmailVerificationFunction => {
+const useSendForgotPasswordEmail = (): EmailVerificationFunction => {
   const dispatch = useAppDispatch(); // Get Redux dispatch function to update global state
 
   const [sendMail, response] = useMutateUnsecureDataMutation(); // Hook to send unsecure data (API request)
@@ -53,7 +53,7 @@ const useSendEmailVerification = (): EmailVerificationFunction => {
       try {
         // API call to send email verification
         const response: any = await sendMail({
-          postUrl: endpoints.auth.verifyMail, // Endpoint to send email verification
+          postUrl: endpoints.forgotPassword.verifyMail, // Endpoint to send email verification
           formMethod: "POST", // HTTP method (POST)
           request: { email: email?.toLowerCase() } || {email: values.email?.toLowerCase()}, // The form values (email)
         });
@@ -67,7 +67,7 @@ const useSendEmailVerification = (): EmailVerificationFunction => {
           dispatch(setAuthState(new AppPayload("verifyEmailRequest", { email: values.email || email as string })));
           
           resetForm(); // Reset the form after successful submission
-          router.navigate("/(onboarding)/otpVerification"); // Navigate to OTP verification screen
+          router.navigate("/(forgotPassword)/otpVerification"); // Navigate to OTP verification screen
         } else {
           // If the response code is not "00", show an error toast with the response message
           showToast(
@@ -117,4 +117,4 @@ const useSendEmailVerification = (): EmailVerificationFunction => {
   };
 };
 
-export default useSendEmailVerification; // Export the custom hook
+export default useSendForgotPasswordEmail; // Export the custom hook

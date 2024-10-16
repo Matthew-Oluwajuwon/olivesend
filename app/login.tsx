@@ -61,7 +61,7 @@ const Login = () => {
               Don't have an account? Sign up
             </Link>
             <Link
-              href="/forgotPassword"
+              href="/(forgotPassword)"
               className="text-black dark:text-white underline font-InterBold text-sm"
             >
               Forgot Password?

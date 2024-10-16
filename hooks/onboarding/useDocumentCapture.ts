@@ -12,6 +12,7 @@ import { useMutateUnsecureDataMutation } from "@/store/api.config"; // Importing
 import useToast from "../useToast"; // Importing custom toast notification hook
 import { endpoints } from "@/store/endpoints"; // Importing API endpoints
 import { API } from "@/models/client/response"; // Importing API response model
+import * as ImageManipulator from 'expo-image-manipulator';
 
 // Maximum file size allowed for upload: 5MB
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -81,8 +82,16 @@ const useDocumentCapture = () => {
           quality: 0.7, // Set the quality of the captured image
           base64: true, // Return image in base64 format
         });
+        const result = await ImageManipulator.manipulateAsync(
+          photo.uri,
+          [],
+          { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+        )
+        const base64Image = await FileSystem.readAsStringAsync(result.uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
         // Store captured image and its format in the auth state
-        dispatch(setAuthState(new AppPayload("imageBase64", photo.base64)));
+        dispatch(setAuthState(new AppPayload("imageBase64", base64Image)));
         dispatch(setAuthState(new AppPayload("mimeType", "capture")));
         router.navigate("/(onboarding)/viewCapturedDoc"); // Navigate to the document preview page
       } catch (error: any) {

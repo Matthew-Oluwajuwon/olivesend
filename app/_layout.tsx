@@ -122,7 +122,9 @@ export default function RootLayout() {
                     },
                   }}
                 />
-                <Stack.Screen name="forgotPassword" />
+                <Stack.Screen name="(forgotPassword)/index" />
+                <Stack.Screen name="(forgotPassword)/otpVerification" />
+                <Stack.Screen name="(forgotPassword)/createPassword" />
               </Stack>
               <Toast />
             </ThemeProvider>

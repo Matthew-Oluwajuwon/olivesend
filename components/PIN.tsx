@@ -5,17 +5,21 @@ import Button from "./Button";
 
 interface PINProps {
   onPress: (value: string) => void;
+  onChangeText?: (value: string) => void;
   buttonName: string;
   pinTitle: string;
   loading?: boolean;
+  message?: string;
+  disabled?: boolean;
 }
 
-const PIN: React.FC<PINProps> = ({ buttonName, pinTitle, loading, onPress }) => {
+const PIN: React.FC<PINProps> = ({ buttonName, pinTitle, loading, message, disabled, onPress, onChangeText }) => {
   const [pin, setPin] = useState("");
 
   const handlePress = (value: any) => {
     if (pin.length < 4) {
       setPin(pin + value);
+      onChangeText && onChangeText(pin + value)
     }
   };
 
@@ -47,7 +51,7 @@ const PIN: React.FC<PINProps> = ({ buttonName, pinTitle, loading, onPress }) => 
     <View className="flex-1 items-center mt-10 relative">
       <Text className="text-white text-2xl font-bold mb-4">{pinTitle}</Text>
       {renderCircles()}
-
+      {message && <Text className="text-red-500 text-[0.8rem] -mb-4">{message}</Text>}
       <View className="flex-row justify-between my-5">
         {[1, 2, 3].map((num) => (
           <TouchableOpacity
@@ -109,7 +113,7 @@ const PIN: React.FC<PINProps> = ({ buttonName, pinTitle, loading, onPress }) => 
         <Button
           type="primary"
           className="w-full bg-white"
-          disabled={pin.length !== 4}
+          disabled={pin.length !== 4 || disabled}
           onPress={() => onPress(pin)}
           textProps={{ className: "text-[#102E34]" }}
           loading={loading}

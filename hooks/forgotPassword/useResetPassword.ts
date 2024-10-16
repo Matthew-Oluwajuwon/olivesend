@@ -10,6 +10,7 @@ import { API } from "@/models/client/response";
 import { endpoints } from "@/store/endpoints";
 import { setAuthState } from "@/store/slice";
 import { useCallback } from "react";
+import { Auth } from "@/models/application/state";
 
 export interface PasswordFunction {
   handleChange: {
@@ -18,13 +19,15 @@ export interface PasswordFunction {
       ? void
       : (e: string | React.ChangeEvent<any>) => void;
   };
-  errors: FormikErrors<{ password: string }>;
+  errors: FormikErrors<{ password: string; confirmPassword: string }>;
   disabled?: boolean;
   values: {
     password: string;
+    confirmPassword: string;
   };
   touched: FormikTouched<{
     password: string;
+    confirmPassword: string;
   }>;
   setFieldTouched: (
     field: string,
@@ -35,16 +38,18 @@ export interface PasswordFunction {
     | Promise<
         FormikErrors<{
           password: string;
+          confirmPassword: string;
         }>
       >;
   handleSubmit: (e?: React.FormEvent<HTMLFormElement>) => void;
   loading: boolean;
+  state: Auth;
 }
 
-const useCreatePassword = (): PasswordFunction => {
+const useResetPassword = (): PasswordFunction => {
   const dispatch = useAppDispatch(); // Access Redux dispatch function to update global state
   const state = useAppSelector((state) => state.auth); // Get auth state from Redux store
-  const [createPassword, response] = useMutateUnsecureDataMutation(); // Custom hook to send API request for OTP verification
+  const [resetPassword, response] = useMutateUnsecureDataMutation(); // Custom hook to send API request for OTP verification
   const { showToast } = useToast(); // Custom hook to show toast notifications
   const { setPasswordField } = useAuthQuery();
 
@@ -52,33 +57,38 @@ const useCreatePassword = (): PasswordFunction => {
   const onCreatePassword = useCallback(async () => {
     try {
       // API call to verify OTP with the server
-      const response: any = await createPassword({
-        postUrl: endpoints.auth.createPassword, // Endpoint to send OTP verification request
+      const response: any = await resetPassword({
+        postUrl: endpoints.forgotPassword.resetPassword, // Endpoint to send OTP verification request
         formMethod: "POST", // Use POST method for submitting the form data
         request: values,
         headers: {
-          Authorization: `Bearer ${state.token}`
-        }
-      })
+          Authorization: `Bearer ${state.token}`,
+        },
+      });
 
       // Extract the response from the API call
       const apiResponse: API<boolean> = response.error?.data || response.data;
 
       // Check if the API response was successful
       if (apiResponse.responseCode === "00") {
-        showToast("success", apiResponse.responseMessage, "Password created successfully");
+        showToast("success", apiResponse.responseMessage, "OTP verification successful");
 
         resetForm(); // Reset the form after successful submission
-        router.navigate("/(onboarding)/personalDetails"); // Navigate to the create password page
+
+        dispatch(setAuthState(new AppPayload("showSuccessOnboarding", true)));
       } else {
         // If the response is unsuccessful, show an error toast with the message
-        showToast("error", "Error occured", apiResponse.message || apiResponse.responseMessage || "An unknown error occurred");
+        showToast(
+          "error",
+          "Error occured",
+          apiResponse.message || apiResponse.responseMessage || "An unknown error occurred"
+        );
       }
     } catch (error: any) {
       // If an error occurs during the request, show a generic error toast
       showToast("error", "Error occurred", error.message || "An unknown error occurred");
     }
-  }, [showToast, createPassword, dispatch]); // Dependencies for the useCallback hook
+  }, [showToast, resetPassword, dispatch]); // Dependencies for the useCallback hook
 
   const validationSchema = Yup.object().shape({
     password: Yup.string()
@@ -86,6 +96,9 @@ const useCreatePassword = (): PasswordFunction => {
       .min(8, " ")
       .max(20, " ")
       .matches(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&.#^()-])[A-Za-z\d@$!%*?&.#^()-]{8,}$/, " "),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null as any], "Passwords do not match")
+      .required("Confirm password is required"),
   });
   const {
     handleChange,
@@ -99,6 +112,7 @@ const useCreatePassword = (): PasswordFunction => {
   } = useFormik({
     initialValues: {
       password: "",
+      confirmPassword: "",
     },
     onSubmit: onCreatePassword,
     validationSchema,
@@ -114,8 +128,9 @@ const useCreatePassword = (): PasswordFunction => {
     errors,
     values,
     disabled: !isValid,
-    loading: response.isLoading
+    loading: response.isLoading,
+    state,
   };
 };
 
-export default useCreatePassword;
+export default useResetPassword;

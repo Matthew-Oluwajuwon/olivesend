@@ -40,7 +40,7 @@ const Button: React.FC<ButtonProps> = (props) => {
       className={`border border-[#EFEFEF] dark:border-[#242424] dark:bg-[#242424] p-3 px-7 rounded-full flex-row justify-center items-center ${
         loading && "opacity-50"
       } ${className}`}
-      disabled={loading}
+      disabled={loading || props.disabled}
     >
       {loading && <ActivityIndicator className="mr-2" />}
       <Text {...textProps} className="font-InterMedium text-black dark:text-white text-center">

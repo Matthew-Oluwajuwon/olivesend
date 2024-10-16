@@ -1,6 +1,9 @@
 import { View, Text, Image } from "react-native";
 import React, { useEffect } from "react";
 import Flower from "./Flower";
+import { useAppDispatch } from "@/store/hooks";
+import { setAuthState } from "@/store/slice";
+import { AppPayload } from "@/models/application/payload";
 
 interface ResponseScreenProps {
   title: string;
@@ -9,9 +12,18 @@ interface ResponseScreenProps {
 }
 
 const ResponseScreen: React.FC<ResponseScreenProps> = ({ message, title, executeOnMount }) => {
+  const dispatch = useAppDispatch()
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      dispatch(setAuthState(new AppPayload("showSuccessOnboarding", false)))
+      
+    }, 1000);
     executeOnMount();
-  }, [executeOnMount]);
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [executeOnMount, dispatch]);
 
   return (
     <View className="flex-1 items-center justify-center relative">

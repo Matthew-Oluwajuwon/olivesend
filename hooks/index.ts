@@ -1,3 +1,6 @@
+import useResetPassword from "./forgotPassword/useResetPassword";
+import useSendForgotPasswordEmail from "./forgotPassword/useSendForgotPasswordEmail";
+import useVerifyOtp from "./forgotPassword/useVerifyOtp";
 import useCreatePassword from "./onboarding/useCreatePassword";
 import useDocumentCapture from "./onboarding/useDocumentCapture";
 import useOtpVerification from "./onboarding/useOtpVerification";
@@ -19,5 +22,8 @@ export {
   usePersonalDetails,
   useDocumentCapture,
   usePinCreation,
-  useTimer
+  useTimer,
+  useSendForgotPasswordEmail,
+  useVerifyOtp,
+  useResetPassword
 };

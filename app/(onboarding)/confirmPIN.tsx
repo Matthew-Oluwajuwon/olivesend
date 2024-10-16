@@ -3,10 +3,11 @@ import ResponseScreen from "@/components/ResponseScreen";
 import { usePinCreation } from "@/hooks";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
 
 const ConfirmPIN = () => {
+  const [confirmPin, setConfirmPin] = useState("");
   const { loading, state, onCreatePin } = usePinCreation();
 
   if (state.showSuccessOnboarding) {
@@ -21,8 +22,8 @@ const ConfirmPIN = () => {
         }}
       />
     );
-  };
-  
+  }
+
   return (
     <View className="px-5 mt-3 flex-1 relative bg-[#102E34]">
       <StatusBar style="light" />
@@ -31,7 +32,15 @@ const ConfirmPIN = () => {
         Confirm your transaction PIN
       </Text>
       <View className="flex-1">
-        <PIN onPress={onCreatePin} buttonName="Submit" loading={loading} pinTitle="Confirm PIN" />
+        <PIN
+          onPress={onCreatePin}
+          onChangeText={setConfirmPin}
+          buttonName="Submit"
+          loading={loading}
+          pinTitle="Confirm PIN"
+          disabled={loading || confirmPin !== state.pinRequest?.pin}
+          message={confirmPin && confirmPin !== state.pinRequest?.pin ? "PIN do not match" : undefined}
+        />
       </View>
     </View>
   );
