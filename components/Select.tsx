@@ -11,10 +11,12 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
   ActivityIndicator,
+  TouchableOpacityProps,
 } from "react-native";
 import { BottomSheetModal, useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { useColorScheme } from "nativewind";
 import { useSafeAreaInsets } from "react-native-safe-area-context"; // To handle safe areas on devices
+import { Entypo } from "@expo/vector-icons";
 
 interface Option {
   label: string;
@@ -22,7 +24,7 @@ interface Option {
   image?: string; // Optional image URL
 }
 
-interface SelectProps {
+export interface SelectProps extends TouchableOpacityProps {
   options: Option[];
   placeholder?: string;
   onSelect: (value: string | number) => void;
@@ -30,6 +32,7 @@ interface SelectProps {
   labelProps?: object; // Additional props for the label if needed
   value?: string | number; // Selected value
   loading?: boolean;
+  isDarkColoredBg?: boolean;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -40,6 +43,8 @@ const Select: React.FC<SelectProps> = ({
   value,
   labelProps = {},
   loading,
+  isDarkColoredBg,
+  ...rest
 }) => {
   const [selectedOption, setSelectedOption] = useState<Option | null>(null); // Store full selected option
   const [searchQuery, setSearchQuery] = useState<string>(""); // State to manage the search input
@@ -59,10 +64,17 @@ const Select: React.FC<SelectProps> = ({
     []
   );
 
-  // Update selectedOption when value prop changes
   useEffect(() => {
+    // If value is provided, find the selected option; otherwise, set the first available option
     const selected = options.find((option) => option.value === value);
-    setSelectedOption(selected || null);
+    if (selected) {
+      setSelectedOption(selected);
+    } else if (options.length > 0) {
+      // Set the first option if available
+      setSelectedOption(options[0]);
+    } else {
+      setSelectedOption(null); // No options available
+    }
   }, [value, options]);
 
   // Filter options based on the search query
@@ -81,7 +93,7 @@ const Select: React.FC<SelectProps> = ({
   };
 
   return (
-    <View className="mb-5 relative flex-1">
+    <View className="mb-5 relative">
       {/* Label */}
       {label && (
         <Text className="text-black dark:text-white mb-2" {...labelProps}>
@@ -91,8 +103,9 @@ const Select: React.FC<SelectProps> = ({
 
       {/* Input field */}
       <TouchableOpacity
-        className="border rounded-[20px] flex-row justify-between p-4 border-gray-500 dark:border-dark-gray-500"
+        className={`border rounded-[20px] flex-row items-center justify-between p-4 border-gray-500 dark:border-dark-gray-500 ${rest.className}`}
         onPress={() => bottomSheetModalRef.current?.present()} // Open the bottom sheet when tapped
+        {...rest}
       >
         <Text className="text-black dark:text-[#F5F5F5]">
           {selectedOption ? (
@@ -100,16 +113,33 @@ const Select: React.FC<SelectProps> = ({
               {selectedOption.image && (
                 <Image
                   source={{ uri: selectedOption.image }}
-                  className="w-5 h-5 mr-3 rounded-full"
+                  className="w-5 h-5 mr-2 rounded-full"
                 />
               )}
-              <Text className="text-black dark:text-[#F5F5F5]">{selectedOption.label}</Text>
+              <Text
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                className={`text-black ${
+                  isDarkColoredBg && "text-white"
+                } w-[60%] text-base font-InterRegular dark:text-[#F5F5F5]`}
+              >
+                {selectedOption.label}
+              </Text>
             </View>
           ) : (
             placeholder
           )}
         </Text>
-        {loading && <ActivityIndicator color={colorScheme === "dark" ? "white" : "black"} />}
+        {loading ? (
+          <ActivityIndicator color={colorScheme === "dark" ? "white" : "black"} />
+        ) : (
+          <Entypo
+            name="chevron-down"
+            size={20}
+            style={{ marginTop: -5 }}
+            color={colorScheme === "dark" || isDarkColoredBg ? "white" : "black"}
+          />
+        )}
       </TouchableOpacity>
 
       {/* Bottom Sheet Modal for Dropdown */}
@@ -133,10 +163,14 @@ const Select: React.FC<SelectProps> = ({
         style={{ padding: 20, marginBottom: bottom }} // Adds bottom safe area padding
         enableDismissOnClose
         onDismiss={handleDismiss}
+        handleIndicatorStyle={{
+          backgroundColor: colorScheme === "dark" ? "white" : "#D8D8D8",
+          width: 75,
+        }}
       >
         {/* Wrap everything in TouchableWithoutFeedback to dismiss the keyboard when tapping outside */}
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View>
+          <View className="mt-2">
             {/* Search Input */}
             <TextInput
               value={searchQuery}

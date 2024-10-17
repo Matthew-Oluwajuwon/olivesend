@@ -71,7 +71,7 @@ const useLogin = (): LoginFunction => {
       const apiResponse: API<LoginResponse> = response.error?.data || response.data;
 
       // If login is successful, handle redirection and state updates
-      if (apiResponse.responseCode === "00") {
+      if (apiResponse?.responseCode === "00") {
         showToast("success", apiResponse.responseMessage, "Login successful"); // Show success toast
 
         // Dispatch the authentication state to Redux store
@@ -82,23 +82,22 @@ const useLogin = (): LoginFunction => {
         resetForm(); // Reset the form fields
 
         try {
-          const userInfoResponse = await getUserInfo({
+          const userInfoResponse: any = await getUserInfo({
             getUrl: endpoints.auth.getUserInfo,
             headers: {
               Authorization: `Bearer ${apiResponse.data?.token}`,
             },
           });
 
-          const userInfoData: API<UserInfo> = response.error?.data || response.data;
-
-          if (userInfoData.responseCode === "00") {
+          const userInfoData: API<UserInfo> = userInfoResponse.error?.data || userInfoResponse.data;
+          if (userInfoData?.responseCode === "00") {
             await setItem("userInfo", JSON.stringify(userInfoData.data));
             dispatch(setAuthState(new AppPayload("isAuthenticated", true)));
           } else {
             showToast(
               "error",
               "Error occurred",
-              userInfoData.message || userInfoData.responseMessage || "An unknown error occurred"
+              userInfoData?.message || userInfoData?.responseMessage || "An unknown error occurred"
             );
           }
         } catch (error: any) {
@@ -120,14 +119,14 @@ const useLogin = (): LoginFunction => {
         showToast(
           "error",
           "Error occurred",
-          apiResponse.message || apiResponse.responseMessage || "An unknown error occurred"
+          apiResponse?.message || apiResponse?.responseMessage || "An unknown error occurred"
         );
       }
     } catch (error: any) {
       // Handle any unexpected errors and show a generic error toast
       showToast("error", "Error occurred", error.message || "An unknown error occurred");
     }
-  }, [showToast, login, dispatch]); // Memoize the callback and include dependencies
+  }, [showToast, login, getUserInfo, dispatch]); // Memoize the callback and include dependencies
 
   // Validation schema for the login form fields using Yup
   const validationSchema = Yup.object().shape({
@@ -167,7 +166,7 @@ const useLogin = (): LoginFunction => {
     errors, // Validation errors for form fields
     values, // Current form values
     disabled: !isValid, // Disable the form submit button if the form is invalid
-    loading: response.isLoading,
+    loading: response.isLoading || result.isLoading,
   };
 };
 

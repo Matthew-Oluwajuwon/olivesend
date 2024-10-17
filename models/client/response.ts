@@ -49,3 +49,13 @@ export class Tier {
   limit: number = 0;
   singleTransactionLimit: number = 0;
 }
+
+export class TransactingCountries {
+  code: string = "";
+  countryPhoneLength: number = 0;
+  currencyShortName: string = "";
+  currencySymbol: string = "";
+  flag: string = "";
+  name: string = "";
+  shortName: string = "";
+}

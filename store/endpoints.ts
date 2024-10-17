@@ -17,4 +17,7 @@ export const endpoints = {
   utils: {
     getCountries: "utils/getCountries",
   },
+  transaction: {
+    getCountries: "transaction/countries"
+  }
 };

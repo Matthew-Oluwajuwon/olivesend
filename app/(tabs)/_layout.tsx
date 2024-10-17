@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "react-native";
+import { Image, View } from "react-native";
 import { Tabs } from "expo-router";
 import { useColorScheme } from "nativewind";
 
@@ -23,20 +23,27 @@ export default function TabLayout() {
               resizeMode="contain"
             />
           ),
-          headerLeft: () => (
+          headerBackground: () =>
+            colorScheme === "dark" ? (
+              <View className="w-full h-full bg-primary-dark" />
+            ) : (
+              <Image
+                source={require("@/assets/images/headerShadow.png")} // Add your background image here
+                className="w-full h-full bg-[#002026]"
+                resizeMode="cover" // Adjust the image to cover the header
+              />
+            ),
+          headerRight: () => (
             <Image
-              source={
-                colorScheme === "light" ? require("@/assets/images/headerShadow.png") : undefined
-              }
+              source={require("@/assets/icons/notification.png")}
+              className="mr-5"
               resizeMode="contain"
             />
-          ),
-          headerRight: () => (
-            <Image source={require("@/assets/icons/notification.png")} className="mr-5" resizeMode="contain" />
           ),
           headerStyle: {
             backgroundColor: colorScheme === "dark" ? "#121212" : "#002026",
             shadowColor: "#92CCBF1A",
+            elevation: 0,
           },
           tabBarIcon: ({ focused }) => (
             <Image

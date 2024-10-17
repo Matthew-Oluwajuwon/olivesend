@@ -1,16 +1,21 @@
-import { ScrollView, Text } from "react-native";
+import { ScrollView } from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
+import FundTransfer from "@/components/send/FundTransfer";
+import TopTransactions from "@/components/send/TopTransactions";
 
 const Send = () => {
 
-    return (
+  return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
-      className="bg-[#002026] dark:bg-primary-dark flex-1"
+      className="dark:bg-primary-dark flex-1"
+      alwaysBounceVertical={false}
+      showsVerticalScrollIndicator={false}
     >
       <StatusBar style="light" />
-      <Text className="text-white font-InterBold text-xl text-center my-5">Send Money to</Text>
+      <FundTransfer />
+      <TopTransactions />
     </ScrollView>
   );
 };

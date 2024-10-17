@@ -56,13 +56,13 @@ const Login = () => {
           <View className="-mt-1">
             <Link
               href="/(onboarding)"
-              className="text-black dark:text-white underline font-InterBold text-sm mb-3"
+              className="text-black dark:text-white underline font-InterBold text-sm mb-3 self-start"
             >
               Don't have an account? Sign up
             </Link>
             <Link
               href="/(forgotPassword)"
-              className="text-black dark:text-white underline font-InterBold text-sm"
+              className="text-black dark:text-white underline font-InterBold text-sm self-start"
             >
               Forgot Password?
             </Link>

@@ -30,7 +30,7 @@ const NavigationContainer = () => {
         },
         contentStyle: {
           backgroundColor: colorScheme === "dark" ? "#121212" : "white",
-        },
+        },headerShadowVisible: false,
         headerTintColor: colorScheme === "dark" ? "white" : "#121212",
         headerLargeTitleShadowVisible: false,
         headerLeft: ({ canGoBack }) => (

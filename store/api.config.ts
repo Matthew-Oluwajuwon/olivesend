@@ -12,6 +12,7 @@ export const authConfig = createApi({
     getUnsecureData: builder.query({
       query: (state: any) => ({
         url: state.getUrl,
+        headers: state.headers || undefined
       }),
     }),
     mutateUnsecureData: builder.mutation({
@@ -32,13 +33,15 @@ export const apiConfig = createApi({
   refetchOnFocus: false,
   refetchOnMountOrArgChange: false,
   endpoints: (builder) => ({
-    getData: builder.query({
-      query: (state: any) => ({
+    getData: builder.query<any, {getUrl: string}>({
+      query: (state) => ({
         url: state.getUrl,
       }),
+      transformResponse: (response: any, meta, arg) => response.data,
+      transformErrorResponse: (response, meta, arg) => response.status,
       providesTags: ["getData"],
     }),
-    mutateData: builder.mutation({
+    mutateData: builder.mutation<any, any>({
       query: (state: any) => ({
         url: state.postUrl,
         method: state.formMethod,
