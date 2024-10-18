@@ -12,7 +12,7 @@ export const authConfig = createApi({
     getUnsecureData: builder.query({
       query: (state: any) => ({
         url: state.getUrl,
-        headers: state.headers || undefined
+        headers: state.headers || undefined,
       }),
     }),
     mutateUnsecureData: builder.mutation({
@@ -20,7 +20,7 @@ export const authConfig = createApi({
         url: state.postUrl,
         method: state.formMethod,
         body: state.request,
-        headers: state.headers || undefined
+        headers: state.headers || undefined,
       }),
     }),
   }),
@@ -33,7 +33,14 @@ export const apiConfig = createApi({
   refetchOnFocus: false,
   refetchOnMountOrArgChange: false,
   endpoints: (builder) => ({
-    getData: builder.query<any, {getUrl: string}>({
+    getData: builder.query<any, { getUrl: string }>({
+      query: (state) => ({
+        url: state.getUrl,
+      }),
+      transformResponse: (response: any, meta, arg) => response.data,
+      transformErrorResponse: (response, meta, arg) => response.status,
+    }),
+    getMutateData: builder.query<any, { getUrl: string }>({
       query: (state) => ({
         url: state.getUrl,
       }),
@@ -52,7 +59,12 @@ export const apiConfig = createApi({
   }),
 });
 
-export const { useGetDataQuery, useLazyGetDataQuery, useMutateDataMutation } = apiConfig;
+export const {
+  useGetDataQuery,
+  useLazyGetDataQuery,
+  useMutateDataMutation,
+  useGetMutateDataQuery,
+} = apiConfig;
 
 export const {
   useGetUnsecureDataQuery,

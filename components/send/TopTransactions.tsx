@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { ReactNode } from "react";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
-import { useGetDataQuery } from "@/store/api.config";
+import { useGetMutateDataQuery } from "@/store/api.config";
 import { endpoints } from "@/store/endpoints";
 import { TransactionDTOS } from "@/models/client/response";
 import { useDateTimeFormat } from "@/hooks";
@@ -23,7 +23,7 @@ const PageWrapper: React.FC<{ children: ReactNode }> = ({ children }) => (
 const TopTransactions = () => {
   const { colorScheme } = useColorScheme();
   const { onFormattedDateTime } = useDateTimeFormat();
-  const { data, isFetching, isLoading, isError } = useGetDataQuery({
+  const { data, isFetching, isLoading, isError } = useGetMutateDataQuery({
     getUrl: endpoints.transaction.getTransactions + `?limit=5&page=1`,
   });
   const dataSource: TransactionDTOS[] = Array.isArray(data?.transactions) ? data?.transactions : [];

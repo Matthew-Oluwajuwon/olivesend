@@ -1,6 +1,7 @@
 import { AppPayload } from "@/models/application/payload";
 import { Beneficiaries } from "@/models/application/state";
 import { BeneficiaryRequest } from "@/models/client/request";
+import { Beneficiary } from "@/models/client/response";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: Beneficiaries = {
@@ -8,7 +9,8 @@ const initialState: Beneficiaries = {
     wallets: [],
     disabled: false,
     deliveryMethod: "WALLET",
-    request: new BeneficiaryRequest()
+    request: new BeneficiaryRequest(),
+    record: new Beneficiary()
 };
 
 const beneficiarySlice = createSlice({

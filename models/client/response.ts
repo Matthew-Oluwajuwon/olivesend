@@ -140,3 +140,9 @@ export class Wallet {
   providerCode: string = "";
   walletName: string = "";
 }
+
+export class CorridorRate {
+  feeCap: number = 0;
+  feePercentage: number = 0;
+  rate: number = 0;
+}

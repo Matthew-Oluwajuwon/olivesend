@@ -1,5 +1,5 @@
 import { Beneficiary } from "@/models/client/response"; // Import the Beneficiary type model
-import { useGetDataQuery } from "@/store/api.config"; // Import custom hook for data fetching
+import { useGetMutateDataQuery } from "@/store/api.config"; // Import custom hook for data fetching
 import { endpoints } from "@/store/endpoints"; // Import API endpoint configuration
 import { useState, useCallback, useMemo, useEffect } from "react"; // Import React hooks
 
@@ -8,7 +8,7 @@ import { useState, useCallback, useMemo, useEffect } from "react"; // Import Rea
  */
 const useBeneficiary = () => {
   // Fetch beneficiary data using a custom query hook
-  const { data, isFetching, isLoading, isError, refetch } = useGetDataQuery({
+  const { data, isFetching, isLoading, isError, refetch } = useGetMutateDataQuery({
     getUrl: endpoints.beneficiary.getBeneficiaries, // API endpoint for beneficiaries
   });
 
@@ -26,7 +26,7 @@ const useBeneficiary = () => {
    * Memoize the reversed dataSource array. This ensures that reversing the array
    * does not mutate the original data, and is recalculated only when `dataSource` changes.
    */
-  const reversedArray = useMemo(() => [...dataSource].reverse(), [dataSource]);
+  const reversedArray = useMemo(() => [...dataSource], [dataSource]);
 
   /**
    * Effect to update `filteredData` when `reversedArray` changes or

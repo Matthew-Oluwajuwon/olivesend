@@ -1,5 +1,5 @@
 import { BeneficiaryRequest, PasswordRequest, PinRequest, VerifyEmail } from "../client/request";
-import { Bank, LoginResponse, Wallet } from "../client/response";
+import { Bank, Beneficiary, LoginResponse, Wallet } from "../client/response";
 
 export type DocType = "NATIONAL_ID_CARD" | "INTERNATIONAL_PASSPORT" | "DRIVER_LICENSE" | undefined;
 export interface Auth {
@@ -27,5 +27,6 @@ export interface Beneficiaries {
   wallets: Array<Wallet>;
   disabled: boolean;
   deliveryMethod: "WALLET" | "BANK";
-  request: BeneficiaryRequest
+  request: BeneficiaryRequest;
+  record: Beneficiary;
 }
