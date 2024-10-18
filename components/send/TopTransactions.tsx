@@ -28,22 +28,22 @@ const TopTransactions = () => {
   });
   const dataSource: TransactionDTOS[] = Array.isArray(data?.transactions) ? data?.transactions : [];
 
+  if (isFetching || isLoading) {
+    return (
+      <PageWrapper>
+        <View className="flex-1 justify-center items-center bg-gray-100 p-4">
+          <ActivityIndicator color={colorScheme === "dark" ? "white" : "black"} />
+        </View>
+      </PageWrapper>
+    );
+  }
+
   if (dataSource?.length === 0) {
     return (
       <PageWrapper>
         <View className="flex-1 justify-center items-center bg-gray-100 p-4">
           <AntDesign name="exclamationcircle" size={40} color="#B0B0B0" />
           <Text className="text-gray-500 mt-4 text-lg font-medium">No transactions yet.</Text>
-        </View>
-      </PageWrapper>
-    );
-  }
-
-  if (isFetching || isLoading) {
-    return (
-      <PageWrapper>
-        <View className="flex-1 justify-center items-center bg-gray-100 p-4">
-          <ActivityIndicator color={colorScheme === "dark" ? "white" : "black"} />
         </View>
       </PageWrapper>
     );

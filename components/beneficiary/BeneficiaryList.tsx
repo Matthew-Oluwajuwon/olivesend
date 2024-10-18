@@ -64,6 +64,12 @@ const BeneficiaryList = () => {
   const { colorScheme } = useColorScheme();
   const { filteredData, reversedArray, isFetching, isLoading, isError, refetch } = useBeneficiary();
 
+  if (isLoading || isFetching) {
+    <View className="flex-1 justify-center items-center bg-gray-100 p-4">
+      <ActivityIndicator color={colorScheme === "dark" ? "#F5F5F5" : "#102E34"} />
+    </View>;
+  }
+
   if (reversedArray?.length === 0) {
     return (
       <View className="flex-1 justify-center items-center bg-gray-100 p-4">
@@ -82,12 +88,6 @@ const BeneficiaryList = () => {
         </Text>
       </View>
     );
-  }
-
-  if (isLoading || isFetching) {
-    <View className="flex-1 justify-center items-center bg-gray-100 p-4">
-      <ActivityIndicator color={colorScheme === "dark" ? "#F5F5F5" : "#102E34"} />
-    </View>;
   }
 
   return (

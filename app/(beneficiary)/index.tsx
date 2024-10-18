@@ -20,7 +20,8 @@ import { router } from "expo-router";
 
 const Beneficiary = () => {
   const { colorScheme } = useColorScheme();
-  const { handleSearch, searchText } = useBeneficiary()
+  const { handleSearch, searchText } = useBeneficiary();
+  
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
