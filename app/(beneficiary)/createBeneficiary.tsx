@@ -28,9 +28,8 @@ const createBeneficiary = () => {
     loading,
     options,
     values,
-    deliveryMethod,
     handleChange,
-    setDeliveryMethod,
+    onChangeDeliveryMethod,
     handleSubmit,
   } = useCreateBeneficiary();
   const { colorScheme } = useColorScheme();
@@ -43,14 +42,14 @@ const createBeneficiary = () => {
     {
       icon: walletSvg({
         color:
-          deliveryMethod === "WALLET" ? "black" : colorScheme === "dark" ? "#C4C4C4" : "#888888",
+          state.deliveryMethod === "WALLET" ? "black" : colorScheme === "dark" ? "#C4C4C4" : "#888888",
       }),
       label: "Wallet",
       value: "WALLET",
     },
     {
       icon: bankSvg({
-        color: deliveryMethod === "BANK" ? "black" : colorScheme === "dark" ? "#C4C4C4" : "#888888",
+        color: state.deliveryMethod === "BANK" ? "black" : colorScheme === "dark" ? "#C4C4C4" : "#888888",
       }),
       label: "Bank",
       value: "BANK",
@@ -83,10 +82,10 @@ const createBeneficiary = () => {
               <View className="flex-row items-center p-1 justify-between rounded-[20px] bg-[#F0F0F0] dark:bg-[#242424]">
                 {data.map((item, index) => (
                   <Pressable
-                    onPress={() => setDeliveryMethod(item.value)}
+                    onPress={() => onChangeDeliveryMethod(item.value)}
                     className="flex-row items-center justify-center w-1/2 py-4 rounded-[20px]"
                     style={{
-                      backgroundColor: deliveryMethod === item.value ? "white" : "transparent",
+                      backgroundColor: state.deliveryMethod === item.value ? "white" : "transparent",
                     }}
                     key={index}
                   >
@@ -95,7 +94,7 @@ const createBeneficiary = () => {
                       className="ml-3 font-InterRegular"
                       style={{
                         color:
-                          deliveryMethod === item.value
+                          state.deliveryMethod === item.value
                             ? "black"
                             : colorScheme === "dark"
                             ? "#C4C4C4"
@@ -108,8 +107,8 @@ const createBeneficiary = () => {
                 ))}
               </View>
             </View>
-            {deliveryMethod === "WALLET" && <Wallet />}
-            {deliveryMethod === "BANK" && <Bank />}
+            {state.deliveryMethod === "WALLET" && <Wallet />}
+            {state.deliveryMethod === "BANK" && <Bank />}
           </View>
           <View className="mb-5">
             <Text className="text-center my-5 mx-auto text-[#888888] dark:text-[#C4C4C4]">

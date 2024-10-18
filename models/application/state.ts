@@ -26,4 +26,5 @@ export interface Beneficiaries {
   banks: Array<Bank>;
   wallets: Array<Wallet>;
   disabled: boolean;
+  deliveryMethod: "WALLET" | "BANK"
 }

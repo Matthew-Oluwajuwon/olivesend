@@ -5,7 +5,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState: Beneficiaries = {
     banks: [],
     wallets: [],
-    disabled: false
+    disabled: false,
+    deliveryMethod: "WALLET"
 };
 
 const beneficiarySlice = createSlice({

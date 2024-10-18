@@ -6,15 +6,14 @@ import { endpoints } from "@/store/endpoints";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setBeneficiaryState } from "@/store/slice";
 import { FormikErrors, FormikTouched, useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import * as Yup from "yup";
 
 // Define the interface for the return type of the custom hook
 interface CreateBeneficiaryFunction {
+  onChangeDeliveryMethod: (method: "WALLET" | "BANK") => void;
   options: SelectProps["options"];
-  deliveryMethod: "WALLET" | "BANK";
   institutionLoading: boolean;
-  setDeliveryMethod: React.Dispatch<React.SetStateAction<"WALLET" | "BANK">>;
   loading: boolean;
   handleSubmit: (e?: React.FormEvent<HTMLFormElement>) => void;
   handleChange: {
@@ -92,9 +91,6 @@ const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
     getUrl: endpoints.transaction.getCountries,
   });
 
-  // State for managing delivery method (WALLET or BANK)
-  const [deliveryMethod, setDeliveryMethod] = useState<"WALLET" | "BANK">("WALLET");
-
   // Yup validation schema for form validation
   const validationSchema = Yup.object().shape({
     countryShortName: Yup.string().required("Country short name is required"),
@@ -103,28 +99,28 @@ const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
       .required("Delivery method is required"),
 
     walletType:
-      deliveryMethod === "WALLET"
+      state.deliveryMethod === "WALLET"
         ? Yup.string().required("Wallet type is required")
         : Yup.string().nullable(),
 
     accountName:
-      deliveryMethod === "BANK"
+      state.deliveryMethod === "BANK"
         ? Yup.string().required("Account name is required")
         : Yup.string().nullable(),
     accountNumber:
-      deliveryMethod === "BANK"
+      state.deliveryMethod === "BANK"
         ? Yup.string().required("Account number is required")
         : Yup.string().nullable(),
     bankName:
-      deliveryMethod === "BANK"
-        ? Yup.object({}).required("Bank is required")
+      state.deliveryMethod === "BANK"
+        ? Yup.string().required("Bank is required")
         : Yup.string().nullable(),
     walletAccountNumber:
-      deliveryMethod === "WALLET"
+      state.deliveryMethod === "WALLET"
         ? Yup.string().required("Wallet Number is required")
         : Yup.string().nullable(),
     walletAccountName:
-      deliveryMethod === "WALLET"
+      state.deliveryMethod === "WALLET"
         ? Yup.string().required("Wallet Name is required")
         : Yup.string().nullable(),
   });
@@ -149,13 +145,13 @@ const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
       accountName: "",
       walletAccountNumber: "",
       walletAccountName: "",
-      deliveryMethod,
+      deliveryMethod: state.deliveryMethod,
       bankProviderCode: "",
     },
     onSubmit: () => {}, // Placeholder for form submission handler
     validationSchema, // Validation schema for the form
     validateOnMount: true, // Validate form on mount
-    validateOnChange: true
+    validateOnChange: true,
   });
 
   // Map the fetched data (countries) to the options for a dropdown select
@@ -168,11 +164,12 @@ const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
     : [];
 
   // Determine the short name of the country based on form values
-  const countryShortName = !values.countryShortName && options.length
-    ? options[0].value
-    : values.countryShortName === "USA"
-    ? "US"
-    : values.countryShortName;
+  const countryShortName =
+    !values.countryShortName && options.length
+      ? options[0].value
+      : values.countryShortName === "USA"
+      ? "US"
+      : values.countryShortName;
 
   // Query to fetch institutions based on the selected country
   const {
@@ -183,6 +180,13 @@ const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
   } = useGetDataQuery({
     getUrl: endpoints.beneficiary.getInstitutions + `/${countryShortName}`,
   });
+
+  const onChangeDeliveryMethod = useCallback(
+    (method: "WALLET" | "BANK") => {
+      dispatch(setBeneficiaryState(new AppPayload("deliveryMethod", method)));
+    },
+    [dispatch]
+  );
 
   // Update the beneficiary state with banks and wallets from the fetched institutions
   useEffect(() => {
@@ -195,19 +199,19 @@ const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
   useEffect(() => {
     setFieldValue("countryShortName", countryShortName);
     setFieldValue("walletType", state.wallets[0]?.walletName);
-  }, [countryShortName, state.wallets]);
+    setFieldValue("bankName", state.banks[0]?.bankName);
+  }, [countryShortName, state.wallets, state.banks]);
 
   return {
+    onChangeDeliveryMethod,
     options, // Country options for the select dropdown
     loading: isFetching || isLoading, // Loading state for countries
     handleChange, // Handle form input changes
-    setDeliveryMethod, // Update the delivery method (WALLET/BANK)
     setFieldTouched, // Mark fields as touched
     handleSubmit, // Submit form handler
     values, // Form values
     errors, // Form validation errors
     touched, // Fields that have been touched
-    deliveryMethod, // Current delivery method (WALLET or BANK)
     institutionLoading: isFetchingInstitution || isLoadingIstitution, // Loading state for institutions
     isValid, // Disable form if not valid
   };
