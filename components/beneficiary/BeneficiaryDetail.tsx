@@ -3,12 +3,15 @@ import React from "react";
 import { capitalizeFirstLetter, maskAccountNumber } from "@/utils/helper";
 import { SvgXml } from "react-native-svg";
 import { Beneficiary } from "@/models/client/response";
-import useBeneficiarySelection from "@/hooks/beneficiary/useBeneficiarySelection";
+import { useBeneficiarySelection } from "@/hooks";
 
 const BeneficiaryDetail = ({ item }: { item: Beneficiary }) => {
   const { onBeneficiaryClicked } = useBeneficiarySelection();
   return (
-    <TouchableOpacity onPress={() => onBeneficiaryClicked("ADD", item)} className="flex-row items-center">
+    <TouchableOpacity
+      onPress={() => onBeneficiaryClicked("ADD", item)}
+      className="flex-row items-center"
+    >
       {item.country?.countryFlag?.includes(".svg") ? (
         <View className="rounded-full w-[24px] h-[24px] items-center justify-center overflow-hidden">
           <SvgXml xml={item.country.countryFlag} width="30" height="30" />

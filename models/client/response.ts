@@ -146,3 +146,11 @@ export class CorridorRate {
   feePercentage: number = 0;
   rate: number = 0;
 }
+
+export class InitiatingPaymentResponse {
+  paymentURL: string = "";
+  transactionAmount: number = 0;
+  transactionId: number = 0;
+  transactionReference: string = "";
+  transactionTotal: number = 0;
+}

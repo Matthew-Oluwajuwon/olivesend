@@ -5,7 +5,7 @@ import { useColorScheme } from "nativewind";
 import { useAppSelector } from "@/store/hooks";
 import { Text, View } from "react-native";
 
-const HeaderLeft = ({ canGoBack, title }: { canGoBack: boolean, title: string }) => {
+const HeaderLeft = ({ canGoBack, title }: { canGoBack: boolean; title: string }) => {
   const { colorScheme } = useColorScheme();
   return (
     <View className="flex-row items-center">
@@ -17,8 +17,8 @@ const HeaderLeft = ({ canGoBack, title }: { canGoBack: boolean, title: string })
       />
       <Text className="font-InterBold text-xl ml-3 dark:text-white">{title}</Text>
     </View>
-  )
-}
+  );
+};
 
 const NavigationContainer = () => {
   const state = useAppSelector((state) => {
@@ -28,7 +28,8 @@ const NavigationContainer = () => {
   const segments = useSegments();
 
   useEffect(() => {
-    const inAuthGroup = segments[0] === "(tabs)" || segments[0] === "(beneficiary)";
+    const inAuthGroup =
+      segments[0] === "(tabs)" || segments[0] === "(beneficiary)" || segments[0] === "(protected)";
     if (state.isAuthenticated && !inAuthGroup) {
       router.replace("/(tabs)/(send)");
     } else if (!state.isAuthenticated && inAuthGroup) {
@@ -138,9 +139,7 @@ const NavigationContainer = () => {
       <Stack.Screen
         name="(beneficiary)/index"
         options={{
-          headerLeft: ({ canGoBack }) => (
-            <HeaderLeft canGoBack={canGoBack} title="Beneficiaries" />
-          ),
+          headerLeft: ({ canGoBack }) => <HeaderLeft canGoBack={canGoBack} title="Beneficiaries" />,
         }}
       />
       <Stack.Screen
@@ -154,7 +153,41 @@ const NavigationContainer = () => {
           contentStyle: {
             paddingVertical: 10,
             backgroundColor: colorScheme === "dark" ? "#121212" : "white",
-          }
+          },
+        }}
+      />
+      <Stack.Screen
+        name="(protected)/transactionConfirmation"
+        options={{
+          contentStyle: {
+            paddingVertical: 10,
+            backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="(protected)/paymentMethods"
+        options={{
+          headerLeft: ({ canGoBack }) => (
+            <HeaderLeft canGoBack={canGoBack} title="Payment Methods" />
+          ),
+          headerShadowVisible: true,
+          headerLargeTitleShadowVisible: true,
+          contentStyle: {
+            paddingVertical: 10,
+            backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="(protected)/paymentWebview"
+        options={{
+          headerBackVisible: false,
+          headerLeft: undefined,
+          contentStyle: {
+            paddingVertical: 10,
+            backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+          },
         }}
       />
     </Stack>

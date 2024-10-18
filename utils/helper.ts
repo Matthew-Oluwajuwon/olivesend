@@ -21,5 +21,5 @@ export const maskAccountNumber = (value: string) => {
   if (!value) return "";
   const visibleLength = 5; // Number of visible characters at the end
   const maskedLength = value.length - visibleLength;
-  return "*".repeat(maskedLength) + value.slice(maskedLength);
+  return "*".repeat(maskedLength + 3) + value.slice(maskedLength);
 };

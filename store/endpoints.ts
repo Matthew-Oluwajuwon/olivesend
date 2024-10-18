@@ -20,7 +20,8 @@ export const endpoints = {
   transaction: {
     getCountries: "transaction/countries",
     getTransactions: "transaction/history",
-    corridorRate: "transaction/"
+    corridorRate: "transaction/",
+    initiateTransfer: "transaction/fundTransfer"
   },
   beneficiary: {
     getBeneficiaries: "beneficiary/getAllBeneficiaries",
@@ -28,5 +29,8 @@ export const endpoints = {
     verifyBeneficiary: "transaction/verifyBeneficiaryAccountDetails",
     createBeneficiary: "beneficiary/addBeneficiary",
     deleteBeneficiary: "beneficiary/"
+  },
+  cards: {
+    getCards: "card"
   }
 };

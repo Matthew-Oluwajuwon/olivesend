@@ -4,17 +4,17 @@ import { CorridorRate, TransactingCountries } from "@/models/client/response";
 import { useGetDataQuery } from "@/store/api.config";
 import { endpoints } from "@/store/endpoints";
 import Select, { SelectProps } from "../Select";
-import { useAmountFormatter } from "@/hooks";
+import { useAmountFormatter, useBeneficiarySelection, useInitiateFundTransfer } from "@/hooks";
 import Button from "../Button";
 import { router } from "expo-router";
 import { useAppSelector } from "@/store/hooks";
 import { Ionicons } from "@expo/vector-icons";
-import useBeneficiarySelection from "@/hooks/beneficiary/useBeneficiarySelection";
 import { capitalizeFirstLetter } from "@/utils/helper";
 
 const FundTransfer = () => {
   const { formattedAmount } = useAmountFormatter();
   const { onBeneficiaryClicked } = useBeneficiarySelection();
+  const { onInitiateFundsTransfer } = useInitiateFundTransfer();
   const [selectedCountry, setSelectedCountry] = useState("");
   const [amount, setAmount] = useState(0);
   const beneficiary = useAppSelector((state) => {
@@ -43,9 +43,9 @@ const FundTransfer = () => {
   const rates: CorridorRate = corridorRate;
 
   const transferFee = rates
-    ? (rates?.feePercentage * amount > rates?.feeCap
+    ? rates?.feePercentage * amount / 100 > rates?.feeCap
       ? rates?.feeCap
-      : rates?.feePercentage * amount)
+      : rates?.feePercentage * amount / 100
     : 0;
   const totalAmount = transferFee + amount;
 
@@ -66,6 +66,18 @@ const FundTransfer = () => {
       amount: rates?.rate?.toString(),
     },
   ];
+
+  const transferPayload = {
+    amount,
+    beneficiaryId: beneficiary?.record?.id,
+    channel: "mobile",
+    fundSource: "",
+    transferPurpose: "",
+    totalAmount,
+    totalFees: transferFee,
+  };
+
+  const disableContinue = transferPayload.beneficiaryId === 0 || transferPayload.amount === 0;
 
   return (
     <View className="bg-[#002026] dark:bg-primary-dark p-3 pb-10">
@@ -158,8 +170,13 @@ const FundTransfer = () => {
       <Button
         type="primary"
         className="bg-[#A5E557] mt-5"
+        disabled={disableContinue}
         textProps={{
           className: "text-black",
+        }}
+        onPress={() => {
+          onInitiateFundsTransfer(transferPayload);
+          router.navigate("/(protected)/transactionConfirmation");
         }}
       >
         Continue

@@ -38,3 +38,13 @@ export class BeneficiaryRequest {
   walletAccountNumber: string = "";
   walletType: string = "";
 }
+
+export class InitiateFundTransfer {
+  beneficiaryId: number = 0;
+  amount: number = 0;
+  transferPurpose: string = "";
+  fundSource: string = "";
+  channel: string = "";
+  totalAmount: number = 0;
+  totalFees: number = 0;
+}

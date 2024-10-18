@@ -1,4 +1,5 @@
 import useBeneficiary from "./beneficiary/useBeneficiary";
+import useBeneficiarySelection from "./beneficiary/useBeneficiarySelection";
 import useBeneficiaryValidation from "./beneficiary/useBeneficiaryValidation";
 import useDeleteBeneficiary from "./beneficiary/useDeleteBeneficiary";
 import useVerifyBeneficiary from "./beneficiary/useVerifyBeneficiary";
@@ -11,6 +12,7 @@ import useOtpVerification from "./onboarding/useOtpVerification";
 import usePersonalDetails from "./onboarding/usePersonalDetails";
 import usePinCreation from "./onboarding/usePinCreation";
 import useSendEmailVerification from "./onboarding/useSendEmailVerification";
+import useInitiateFundTransfer from "./send/useInitiateFundTransfer";
 import useAmountFormatter from "./useAmountFormatter";
 import { useAuthQuery } from "./useAuthQuery";
 import useDateTimeFormat from "./useDateTimeFormat";
@@ -39,5 +41,7 @@ export {
   useBeneficiary,
   useBeneficiaryValidation,
   useVerifyBeneficiary,
-  useDeleteBeneficiary
+  useDeleteBeneficiary,
+  useBeneficiarySelection,
+  useInitiateFundTransfer
 };

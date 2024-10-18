@@ -1,5 +1,5 @@
-import { BeneficiaryRequest, PasswordRequest, PinRequest, VerifyEmail } from "../client/request";
-import { Bank, Beneficiary, LoginResponse, Wallet } from "../client/response";
+import { BeneficiaryRequest, InitiateFundTransfer, PasswordRequest, PinRequest, VerifyEmail } from "../client/request";
+import { Bank, Beneficiary, InitiatingPaymentResponse, LoginResponse, Wallet } from "../client/response";
 
 export type DocType = "NATIONAL_ID_CARD" | "INTERNATIONAL_PASSPORT" | "DRIVER_LICENSE" | undefined;
 export interface Auth {
@@ -29,4 +29,9 @@ export interface Beneficiaries {
   deliveryMethod: "WALLET" | "BANK";
   request: BeneficiaryRequest;
   record: Beneficiary;
+}
+
+export interface Send {
+  initiateFundTransfer: InitiateFundTransfer;
+  paymentInitiationResponse: InitiatingPaymentResponse;
 }
