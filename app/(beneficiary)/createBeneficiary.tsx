@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React from "react";
 import Select from "@/components/Select";
-import { useCreateBeneficiary } from "@/hooks";
+import { useBeneficiaryValidation, useVerifyBeneficiary } from "@/hooks";
 import bankSvg from "@/assets/svg/bankSvg";
 import { SvgXml } from "react-native-svg";
 import { useColorScheme } from "nativewind";
@@ -19,6 +19,7 @@ import Wallet from "@/components/beneficiary/Wallet";
 import Bank from "@/components/beneficiary/Bank";
 import Button from "@/components/Button";
 import { useAppSelector } from "@/store/hooks";
+import Flower from "@/components/Flower";
 
 const createBeneficiary = () => {
   const state = useAppSelector((state) => {
@@ -30,9 +31,9 @@ const createBeneficiary = () => {
     values,
     handleChange,
     onChangeDeliveryMethod,
-    handleSubmit,
-  } = useCreateBeneficiary();
+  } = useBeneficiaryValidation();
   const { colorScheme } = useColorScheme();
+  const { onVerify, verifying } = useVerifyBeneficiary();
   interface DataProp {
     icon: string;
     label: string;
@@ -66,7 +67,7 @@ const createBeneficiary = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ flexGrow: 1 }}
-          className="flex-1 px-5"
+          className="flex-1 px-5 pt-5"
         >
           <View className="flex-1">
             <Select
@@ -117,13 +118,14 @@ const createBeneficiary = () => {
             </Text>
             <Button
               type="primary"
-              loading={false}
-              onPress={() => handleSubmit()}
+              loading={verifying}
+              onPress={onVerify}
               disabled={state.disabled}
             >
               Save
             </Button>
           </View>
+          <Flower />
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

@@ -1,12 +1,14 @@
 import { AppPayload } from "@/models/application/payload";
 import { Beneficiaries } from "@/models/application/state";
+import { BeneficiaryRequest } from "@/models/client/request";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: Beneficiaries = {
     banks: [],
     wallets: [],
     disabled: false,
-    deliveryMethod: "WALLET"
+    deliveryMethod: "WALLET",
+    request: new BeneficiaryRequest()
 };
 
 const beneficiarySlice = createSlice({

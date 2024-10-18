@@ -24,6 +24,8 @@ export const endpoints = {
   beneficiary: {
     getBeneficiaries: "beneficiary/getAllBeneficiaries",
     getInstitutions: "transaction/receivingInstitutionByCountry",
-    verifyBeneficiary: "transaction/verifyBeneficiaryAccountDetails"
+    verifyBeneficiary: "transaction/verifyBeneficiaryAccountDetails",
+    createBeneficiary: "beneficiary/addBeneficiary",
+    deleteBeneficiary: "beneficiary/"
   }
 };

@@ -3,7 +3,7 @@ import React from "react";
 import { useAppSelector } from "@/store/hooks";
 import Select, { SelectProps } from "../Select";
 import { Wallet as WalletType } from "@/models/client/response";
-import { useCreateBeneficiary } from "@/hooks";
+import { useBeneficiaryValidation } from "@/hooks";
 import Input from "../Input";
 
 const Wallet = () => {
@@ -11,7 +11,7 @@ const Wallet = () => {
     return state.beneficiary;
   });
   const { handleChange, institutionLoading, values, errors, touched, setFieldTouched } =
-    useCreateBeneficiary();
+    useBeneficiaryValidation();
   const options: SelectProps["options"] = Array.isArray(state.wallets)
     ? state.wallets.map((item: WalletType) => ({
         label: item.walletName,
@@ -19,7 +19,7 @@ const Wallet = () => {
       }))
     : [];
 
-  return (
+    return (
     <View className="mt-5">
       <Select
         label="Choose wallet"

@@ -50,16 +50,16 @@ const FundTransfer = () => {
         onSelect={(e) => console.log(e)}
         isDarkColoredBg
         loading={isFetching || isLoading}
-        className="w-[35%] mx-auto p-3 bg-[#0A1D21] dark:bg-[#1F1F1F] border-[#005666] dark:border-[#5C5C5C]"
+        className="w-[35%] mx-auto p-3 bg-[#0A1D21] dark:bg-[#1F1F1F] border-[#005666] dark:border-[#333333]"
         placeholder={isError ? "No country" : ""}
       />
       <View>
-        <TouchableOpacity onPress={() => router.navigate("/(beneficiary)")} className="bg-[#102E34] dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#5C5C5C] flex-row items-center justify-between pr-5">
+        <TouchableOpacity onPress={() => router.navigate("/(beneficiary)")} className="bg-[#102E34] dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#333333] flex-row items-center justify-between pr-5">
           <Text className="p-6 text-[#9D9D9D]">Click to add a beneficiary</Text>
           <Image source={require("@/assets/icons/add-circle.png")} />
         </TouchableOpacity>
         <View className="mt-5 flex-row items-center justify-between">
-          <View className="bg-[#102E34] p-3 w-[45%] dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#5C5C5C]">
+          <View className="bg-[#102E34] p-3 w-[45%] dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#333333]">
             <Text className="font-InterRegular text-[#9D9D9D]">You send</Text>
             <View className="flex-row mt-2">
               <Text className="text-white mr-1">$</Text>
@@ -67,7 +67,7 @@ const FundTransfer = () => {
             </View>
           </View>
           <Image source={require("@/assets/images/exchange.png")} className="mx-3-" />
-          <View className="bg-[#102E34] w-[45%] p-3 dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#5C5C5C]">
+          <View className="bg-[#102E34] w-[45%] p-3 dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#333333]">
             <Text className="font-InterRegular text-[#9D9D9D]">They receive</Text>
             <Text className="font-InterRegular text-white mt-2">USD 30.00</Text>
           </View>

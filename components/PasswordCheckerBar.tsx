@@ -32,7 +32,7 @@ const PasswordCheckerBar = () => {
             ? "border-[#28CA9E] bg-[#28CA9E]"
             : colorScheme === "light"
             ? "border-[#C9CED8] bg-[#C9CED8]"
-            : "border-[#5C5C5C] bg-[#5C5C5C]"
+            : "border-[#333333] bg-[#333333]"
         } rounded-[3px]`}
       />
       <View
@@ -45,7 +45,7 @@ const PasswordCheckerBar = () => {
             ? "border-[#28CA9E] bg-[#28CA9E]"
             : colorScheme === "light"
             ? "border-[#C9CED8] bg-[#C9CED8]"
-            : "border-[#5C5C5C] bg-[#5C5C5C]"
+            : "border-[#333333] bg-[#333333]"
         } rounded-[3px] mx-3`}
       />
       <View
@@ -56,7 +56,7 @@ const PasswordCheckerBar = () => {
             ? "border-[#28CA9E] bg-[#28CA9E]"
             : colorScheme === "light"
             ? "border-[#C9CED8] bg-[#C9CED8]"
-            : "border-[#5C5C5C] bg-[#5C5C5C]"
+            : "border-[#333333] bg-[#333333]"
         } rounded-[3px] mr-3`}
       />
       <View
@@ -65,7 +65,7 @@ const PasswordCheckerBar = () => {
             ? "border-[#28CA9E] bg-[#28CA9E]"
             : colorScheme === "light"
             ? "border-[#C9CED8] bg-[#C9CED8]"
-            : "border-[#5C5C5C] bg-[#5C5C5C]"
+            : "border-[#333333] bg-[#333333]"
         } rounded-[3px]`}
       />
     </View>

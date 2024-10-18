@@ -1,5 +1,7 @@
 import useBeneficiary from "./beneficiary/useBeneficiary";
-import useCreateBeneficiary from "./beneficiary/useCreateBeneficiary";
+import useBeneficiaryValidation from "./beneficiary/useBeneficiaryValidation";
+import useDeleteBeneficiary from "./beneficiary/useDeleteBeneficiary";
+import useVerifyBeneficiary from "./beneficiary/useVerifyBeneficiary";
 import useResetPassword from "./forgotPassword/useResetPassword";
 import useSendForgotPasswordEmail from "./forgotPassword/useSendForgotPasswordEmail";
 import useVerifyOtp from "./forgotPassword/useVerifyOtp";
@@ -35,5 +37,7 @@ export {
   useAmountFormatter,
   useDateTimeFormat,
   useBeneficiary,
-  useCreateBeneficiary
+  useBeneficiaryValidation,
+  useVerifyBeneficiary,
+  useDeleteBeneficiary
 };

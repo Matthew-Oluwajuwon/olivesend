@@ -55,7 +55,7 @@ const OtpVerification = () => {
       lineHeight: 50,
       fontSize: 20,
       borderWidth: 1,
-      borderColor: colorScheme === "light" ? "#D8D8D8" : "#5C5C5C",
+      borderColor: colorScheme === "light" ? "#D8D8D8" : "#333333",
       textAlign: "center",
       borderRadius: 20,
       color: "#888888",

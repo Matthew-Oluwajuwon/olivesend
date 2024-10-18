@@ -3,7 +3,7 @@ import React from "react";
 import { useAppSelector } from "@/store/hooks";
 import Select, { SelectProps } from "../Select";
 import { Bank as BankType } from "@/models/client/response";
-import { useCreateBeneficiary } from "@/hooks";
+import { useBeneficiaryValidation } from "@/hooks";
 import Input from "../Input";
 
 const Bank = () => {
@@ -11,7 +11,7 @@ const Bank = () => {
         return state.beneficiary;
       });
       const { handleChange, institutionLoading, values, errors, touched, setFieldTouched } =
-        useCreateBeneficiary();
+        useBeneficiaryValidation();
       const options: SelectProps["options"] = Array.isArray(state.wallets)
         ? state.banks.map((item: BankType) => ({
             label: item.bankName,

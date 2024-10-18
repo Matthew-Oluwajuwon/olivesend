@@ -1,4 +1,3 @@
-import { router } from "expo-router";
 import { FormikErrors, FormikTouched, useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuthQuery } from "../useAuthQuery";

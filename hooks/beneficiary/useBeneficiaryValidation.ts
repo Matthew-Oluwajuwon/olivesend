@@ -6,8 +6,9 @@ import { endpoints } from "@/store/endpoints";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setBeneficiaryState } from "@/store/slice";
 import { FormikErrors, FormikTouched, useFormik } from "formik";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import * as Yup from "yup";
+import useVerifyBeneficiary from "./useVerifyBeneficiary";
 
 // Define the interface for the return type of the custom hook
 interface CreateBeneficiaryFunction {
@@ -74,11 +75,10 @@ interface CreateBeneficiaryFunction {
     deliveryMethod: "WALLET" | "BANK";
     bankProviderCode: string;
   }>;
-  isValid: boolean;
 }
 
 // Custom hook to create and manage beneficiary form
-const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
+const useBeneficiaryValidation = (): CreateBeneficiaryFunction => {
   const dispatch = useAppDispatch();
 
   // Fetch beneficiary-related state from the store
@@ -92,37 +92,34 @@ const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
   });
 
   // Yup validation schema for form validation
-  const validationSchema = Yup.object().shape({
+  const walletValidationSchema = Yup.object().shape({
     countryShortName: Yup.string().required("Country short name is required"),
-    deliveryMethod: Yup.string()
+    deliveryMethod: Yup.mixed()
       .oneOf(["WALLET", "BANK"], "Invalid delivery method")
       .required("Delivery method is required"),
+    walletType: Yup.string().required("Wallet type is required"),
+    walletAccountNumber: Yup.string().required("Wallet Number is required"),
+    walletAccountName: Yup.string().required("Wallet Name is required"),
+    bankProviderCode: Yup.string().nullable(),
+  });
+  const bankValidationSchema = Yup.object().shape({
+    countryShortName: Yup.string().required("Country short name is required"),
+    deliveryMethod: Yup.mixed()
+      .oneOf(["WALLET", "BANK"], "Invalid delivery method")
+      .required("Delivery method is required"),
+    accountName: Yup.string().required("Account name is required"),
+    accountNumber: Yup.string().required("Account number is required"),
+    bankName: Yup.string().required("Bank is required"),
+    bankProviderCode: Yup.string().nullable(),
+  });
 
-    walletType:
-      state.deliveryMethod === "WALLET"
-        ? Yup.string().required("Wallet type is required")
-        : Yup.string().nullable(),
-
-    accountName:
-      state.deliveryMethod === "BANK"
-        ? Yup.string().required("Account name is required")
-        : Yup.string().nullable(),
-    accountNumber:
-      state.deliveryMethod === "BANK"
-        ? Yup.string().required("Account number is required")
-        : Yup.string().nullable(),
-    bankName:
-      state.deliveryMethod === "BANK"
-        ? Yup.string().required("Bank is required")
-        : Yup.string().nullable(),
-    walletAccountNumber:
-      state.deliveryMethod === "WALLET"
-        ? Yup.string().required("Wallet Number is required")
-        : Yup.string().nullable(),
-    walletAccountName:
-      state.deliveryMethod === "WALLET"
-        ? Yup.string().required("Wallet Name is required")
-        : Yup.string().nullable(),
+  const validationSchema = Yup.lazy((values) => {
+    if (values.deliveryMethod === "BANK") {
+      return bankValidationSchema;
+    } else if (values.deliveryMethod === "WALLET") {
+      return walletValidationSchema;
+    }
+    return Yup.object().shape({});
   });
 
   // Formik form management hook
@@ -134,24 +131,24 @@ const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
     setFieldTouched,
     handleSubmit,
     setFieldValue,
-    resetForm,
+    validateForm,
     isValid,
   } = useFormik({
     initialValues: {
       countryShortName: "",
-      walletType: "",
       bankName: "",
       accountNumber: "",
       accountName: "",
-      walletAccountNumber: "",
-      walletAccountName: "",
       deliveryMethod: state.deliveryMethod,
       bankProviderCode: "",
+      walletType: "",
+      walletAccountNumber: "",
+      walletAccountName: "",
     },
     onSubmit: () => {}, // Placeholder for form submission handler
     validationSchema, // Validation schema for the form
     validateOnMount: true, // Validate form on mount
-    validateOnChange: true,
+    validateOnChange: true
   });
 
   // Map the fetched data (countries) to the options for a dropdown select
@@ -192,15 +189,28 @@ const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
   useEffect(() => {
     dispatch(setBeneficiaryState(new AppPayload("banks", institutions?.banks || [])));
     dispatch(setBeneficiaryState(new AppPayload("disabled", !isValid)));
+    dispatch(setBeneficiaryState(new AppPayload("request", values)));
     dispatch(setBeneficiaryState(new AppPayload("wallets", institutions?.wallets || [])));
-  }, [institutions, isValid]);
+  }, [institutions, isValid, values]);
 
-  // Update form fields when country short name or wallets change
+  // Set country, bank, and wallet fields dynamically
   useEffect(() => {
-    setFieldValue("countryShortName", countryShortName);
-    setFieldValue("walletType", state.wallets[0]?.walletName);
-    setFieldValue("bankName", state.banks[0]?.bankName);
-  }, [countryShortName, state.wallets, state.banks]);
+    if (!values.countryShortName) {
+      setFieldValue("countryShortName", countryShortName);
+    }
+    if (!values.walletType && state.wallets.length > 0) {
+      setFieldValue("walletType", state.wallets[0]?.walletName);
+    }
+    if (!values.bankName && state.banks.length > 0) {
+      setFieldValue("bankName", state.banks[0]?.bankName);
+    }
+    setFieldValue("deliveryMethod", state.deliveryMethod);
+  }, [countryShortName, state.wallets, state.banks, state.deliveryMethod, setFieldValue]);
+
+  // Validate form when delivery method changes
+  useEffect(() => {
+    validateForm();
+  }, [values.deliveryMethod, validateForm]);
 
   return {
     onChangeDeliveryMethod,
@@ -213,8 +223,7 @@ const useCreateBeneficiary = (): CreateBeneficiaryFunction => {
     errors, // Form validation errors
     touched, // Fields that have been touched
     institutionLoading: isFetchingInstitution || isLoadingIstitution, // Loading state for institutions
-    isValid, // Disable form if not valid
   };
 };
 
-export default useCreateBeneficiary;
+export default useBeneficiaryValidation;

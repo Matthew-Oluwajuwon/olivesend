@@ -26,3 +26,15 @@ export class PinRequest {
   pin: string = "";
   confirmPin: string = "";
 }
+
+export class BeneficiaryRequest {
+  accountName: string = "";
+  accountNumber: string = "";
+  bankName: string = "";
+  bankProviderCode: string = "";
+  countryShortName: string = "";
+  deliveryMethod: string = "";
+  walletAccountName: string = "";
+  walletAccountNumber: string = "";
+  walletType: string = "";
+}

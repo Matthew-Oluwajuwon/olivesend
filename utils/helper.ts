@@ -6,10 +6,15 @@ import {
 export { wp, hp };
 
 export function capitalizeFirstLetter(text: string) {
-  if (text?.length === 0) {
-    return text;
+  if (!text) {
+    return text; // Return early if the text is empty or undefined
   }
-  return text?.charAt(0).toUpperCase() + text?.slice(1);
+
+  // Split the text by spaces, capitalize each word, and join them back together
+  return text
+    .split(' ') // Split the text into words
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+    .join(' '); // Join the words back with spaces
 }
 
 export const maskAccountNumber = (value: string) => {

@@ -21,7 +21,7 @@ import { router } from "expo-router";
 const Beneficiary = () => {
   const { colorScheme } = useColorScheme();
   const { handleSearch, searchText } = useBeneficiary();
-  
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -30,7 +30,7 @@ const Beneficiary = () => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View className="dark:bg-primary-dark py-5 flex-1 relative">
-          <View className="mb-7 mx-5 border border-[#D8D8D8] dark:border-[#5C5C5C] bg-[#F0F0F0] dark:bg-[#242424] rounded-[20px] p-[15px] flex-row items-center">
+          <View className="mb-7 mx-5 border border-[#D8D8D8] dark:border-[#333333] bg-[#F0F0F0] dark:bg-[#242424] rounded-[20px] p-[15px] flex-row items-center">
             <Ionicons
               name="search-outline"
               size={24}
@@ -61,7 +61,7 @@ const Beneficiary = () => {
               color={colorScheme === "light" ? "black" : "#f5f5f5"}
             />
           </TouchableOpacity>
-          <View className="border-b mt-5 border-[#D8D8D8] dark:border-[#5C5C5C]" />
+          <View className="border-b mt-5 border-[#D8D8D8] dark:border-[#333333]" />
           <BeneficiaryList />
           <Flower />
         </View>
