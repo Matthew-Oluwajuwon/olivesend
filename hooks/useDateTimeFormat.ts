@@ -16,14 +16,14 @@ const useDateTimeFormat = (): FormattedDateTime => {
     });
 
     // Format the time
-    const formattedTime = dateObj.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true, // This makes it 12-hour format (AM/PM)
-    });
+    // const formattedTime = dateObj.toLocaleTimeString("en-US", {
+    //   hour: "2-digit",
+    //   minute: "2-digit",
+    //   second: "2-digit",
+    //   hour12: true, // This makes it 12-hour format (AM/PM)
+    // });
 
-    const formatted = `${formattedDate}, ${formattedTime}`;
+    const formatted = `${formattedDate}`;
 
     return formatted;
   }, []);

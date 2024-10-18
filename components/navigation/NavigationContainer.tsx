@@ -3,6 +3,22 @@ import { Ionicons } from "@expo/vector-icons";
 import { Stack, router, useSegments } from "expo-router";
 import { useColorScheme } from "nativewind";
 import { useAppSelector } from "@/store/hooks";
+import { Text, View } from "react-native";
+
+const HeaderLeft = ({ canGoBack, title }: { canGoBack: boolean, title: string }) => {
+  const { colorScheme } = useColorScheme();
+  return (
+    <View className="flex-row items-center">
+      <Ionicons
+        name="arrow-back-sharp"
+        color={colorScheme === "dark" ? "white" : "black"}
+        size={24}
+        onPress={() => canGoBack && router.back()}
+      />
+      <Text className="font-InterBold text-xl ml-3 dark:text-white">{title}</Text>
+    </View>
+  )
+}
 
 const NavigationContainer = () => {
   const state = useAppSelector((state) => {
@@ -12,7 +28,7 @@ const NavigationContainer = () => {
   const segments = useSegments();
 
   useEffect(() => {
-    const inAuthGroup = segments[0] === "(tabs)";
+    const inAuthGroup = segments[0] === "(tabs)" || segments[0] === "(beneficiary)";
     if (state.isAuthenticated && !inAuthGroup) {
       router.replace("/(tabs)/(send)");
     } else if (!state.isAuthenticated && inAuthGroup) {
@@ -30,7 +46,8 @@ const NavigationContainer = () => {
         },
         contentStyle: {
           backgroundColor: colorScheme === "dark" ? "#121212" : "white",
-        },headerShadowVisible: false,
+        },
+        headerShadowVisible: false,
         headerTintColor: colorScheme === "dark" ? "white" : "#121212",
         headerLargeTitleShadowVisible: false,
         headerLeft: ({ canGoBack }) => (
@@ -118,6 +135,28 @@ const NavigationContainer = () => {
       <Stack.Screen name="(forgotPassword)/otpVerification" />
       <Stack.Screen name="(forgotPassword)/createPassword" />
       <Stack.Screen name="(tabs)" options={{ headerShown: false, gestureEnabled: false }} />
+      <Stack.Screen
+        name="(beneficiary)/index"
+        options={{
+          headerLeft: ({ canGoBack }) => (
+            <HeaderLeft canGoBack={canGoBack} title="Beneficiaries" />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="(beneficiary)/createBeneficiary"
+        options={{
+          headerLeft: ({ canGoBack }) => (
+            <HeaderLeft canGoBack={canGoBack} title="New Beneficiaries" />
+          ),
+          headerShadowVisible: true,
+          headerLargeTitleShadowVisible: true,
+          contentStyle: {
+            paddingVertical: 10,
+            backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+          }
+        }}
+      />
     </Stack>
   );
 };

@@ -121,7 +121,7 @@ const Select: React.FC<SelectProps> = ({
                 numberOfLines={1}
                 className={`text-black ${
                   isDarkColoredBg && "text-white"
-                } w-[60%] text-base font-InterRegular dark:text-[#F5F5F5]`}
+                } text-base font-InterRegular dark:text-[#F5F5F5]`}
               >
                 {selectedOption.label}
               </Text>
@@ -136,7 +136,7 @@ const Select: React.FC<SelectProps> = ({
           <Entypo
             name="chevron-down"
             size={20}
-            style={{ marginTop: -5 }}
+            style={{ marginTop: -6 }}
             color={colorScheme === "dark" || isDarkColoredBg ? "white" : "black"}
           />
         )}
@@ -189,16 +189,11 @@ const Select: React.FC<SelectProps> = ({
                     className="flex-row items-center py-2 mb-1"
                     onPress={() => handleSelect(item)} // Pass the entire option object
                   >
-                    {item.image ? (
-                      <Image source={{ uri: item.image }} className="w-5 h-5 mr-3 rounded-full" />
-                    ) : (
-                      <View className="w-5 h-5 mr-3 rounded-full">
-                        <Text className="text-gray-800 dark:text-white">
-                          {item.label?.slice(0, 2).toUpperCase()}
-                        </Text>
-                      </View>
-                    )}
-                    <Text className="text-base text-gray-800 dark:text-white font-InterRegular">
+                    <Image source={{ uri: item.image }} className="w-5 h-5 mr-3 rounded-full" />
+                    
+                    <Text style={{
+                      marginLeft: item.image ? 0 : -30
+                    }} className="text-base text-gray-800 dark:text-white font-InterRegular">
                       {item.label}
                     </Text>
                   </TouchableOpacity>

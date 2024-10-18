@@ -9,7 +9,7 @@ const Send = () => {
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
-      className="dark:bg-primary-dark flex-1"
+      className="bg-white dark:bg-primary-dark flex-1"
       alwaysBounceVertical={false}
       showsVerticalScrollIndicator={false}
     >

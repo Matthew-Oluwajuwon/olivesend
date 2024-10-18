@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action, combineReducers } from "@reduxjs/toolkit";
 import { authReducer } from "./slice/auth.slice";
 import { apiConfig, authConfig } from "./api.config";
+import { beneficiaryReducer } from "./slice/beneficiary.slice";
 
 const reducer = combineReducers({
   auth: authReducer,
+  beneficiary: beneficiaryReducer,
   [authConfig.reducerPath]: authConfig.reducer,
   [apiConfig.reducerPath]: apiConfig.reducer,
 });

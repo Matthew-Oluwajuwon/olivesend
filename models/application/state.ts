@@ -1,5 +1,5 @@
 import { PasswordRequest, PinRequest, VerifyEmail } from "../client/request";
-import { LoginResponse } from "../client/response";
+import { Bank, LoginResponse, Wallet } from "../client/response";
 
 export type DocType = "NATIONAL_ID_CARD" | "INTERNATIONAL_PASSPORT" | "DRIVER_LICENSE" | undefined;
 export interface Auth {
@@ -20,4 +20,10 @@ export interface Auth {
   pinRequest: PinRequest;
   showSuccessOnboarding: boolean;
   isAuthenticated: boolean;
+}
+
+export interface Beneficiaries {
+  banks: Array<Bank>;
+  wallets: Array<Wallet>;
+  disabled: boolean;
 }

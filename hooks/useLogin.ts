@@ -72,14 +72,11 @@ const useLogin = (): LoginFunction => {
 
       // If login is successful, handle redirection and state updates
       if (apiResponse?.responseCode === "00") {
-        showToast("success", apiResponse.responseMessage, "Login successful"); // Show success toast
-
         // Dispatch the authentication state to Redux store
         dispatch(setAuthState(new AppPayload("loginResponse", apiResponse.data)));
         dispatch(setAuthState(new AppPayload("token", apiResponse.data?.token)));
         dispatch(setAuthState(new AppPayload("verifyEmailRequest", { email: values.email })));
         await setItem("token", apiResponse.data?.token);
-        resetForm(); // Reset the form fields
 
         try {
           const userInfoResponse: any = await getUserInfo({
@@ -91,8 +88,10 @@ const useLogin = (): LoginFunction => {
 
           const userInfoData: API<UserInfo> = userInfoResponse.error?.data || userInfoResponse.data;
           if (userInfoData?.responseCode === "00") {
+            showToast("success", apiResponse.responseMessage, "Login successful"); // Show success toast
             await setItem("userInfo", JSON.stringify(userInfoData.data));
             dispatch(setAuthState(new AppPayload("isAuthenticated", true)));
+            resetForm(); // Reset the form fields
           } else {
             showToast(
               "error",

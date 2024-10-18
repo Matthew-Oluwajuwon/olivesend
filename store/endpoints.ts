@@ -18,6 +18,12 @@ export const endpoints = {
     getCountries: "utils/getCountries",
   },
   transaction: {
-    getCountries: "transaction/countries"
+    getCountries: "transaction/countries",
+    getTransactions: "transaction/history"
+  },
+  beneficiary: {
+    getBeneficiaries: "beneficiary/getAllBeneficiaries",
+    getInstitutions: "transaction/receivingInstitutionByCountry",
+    verifyBeneficiary: "transaction/verifyBeneficiaryAccountDetails"
   }
 };

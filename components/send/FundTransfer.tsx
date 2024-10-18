@@ -6,6 +6,7 @@ import { endpoints } from "@/store/endpoints";
 import Select, { SelectProps } from "../Select";
 import { useAmountFormatter } from "@/hooks";
 import Button from "../Button";
+import { router } from "expo-router";
 
 const FundTransfer = () => {
   const { data, isFetching, isLoading, isError } = useGetDataQuery({
@@ -49,11 +50,11 @@ const FundTransfer = () => {
         onSelect={(e) => console.log(e)}
         isDarkColoredBg
         loading={isFetching || isLoading}
-        className="w-[40%] mx-auto p-3 py-4 bg-[#0A1D21] dark:bg-[#1F1F1F] border-[#005666] dark:border-[#5C5C5C]"
+        className="w-[35%] mx-auto p-3 bg-[#0A1D21] dark:bg-[#1F1F1F] border-[#005666] dark:border-[#5C5C5C]"
         placeholder={isError ? "No country" : ""}
       />
       <View>
-        <TouchableOpacity className="bg-[#102E34] dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#5C5C5C] flex-row items-center justify-between pr-5">
+        <TouchableOpacity onPress={() => router.navigate("/(beneficiary)")} className="bg-[#102E34] dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#5C5C5C] flex-row items-center justify-between pr-5">
           <Text className="p-6 text-[#9D9D9D]">Click to add a beneficiary</Text>
           <Image source={require("@/assets/icons/add-circle.png")} />
         </TouchableOpacity>
