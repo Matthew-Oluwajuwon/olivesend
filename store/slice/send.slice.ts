@@ -1,12 +1,13 @@
 import { AppPayload } from "@/models/application/payload";
 import { Send } from "@/models/application/state";
 import { InitiateFundTransfer } from "@/models/client/request";
-import { InitiatingPaymentResponse } from "@/models/client/response";
+import { InitiatingPaymentResponse, TransactionReceipt } from "@/models/client/response";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: Send = {
     initiateFundTransfer: new InitiateFundTransfer(),
-    paymentInitiationResponse: new InitiatingPaymentResponse()
+    paymentInitiationResponse: new InitiatingPaymentResponse(),
+    receipt: new TransactionReceipt()
 };
 
 const sendSlice = createSlice({

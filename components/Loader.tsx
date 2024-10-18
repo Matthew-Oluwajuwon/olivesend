@@ -31,7 +31,7 @@ const Loader: React.FC<LoaderProps> = ({ message }) => {
   }, [rotateSquare]);
 
   return (
-    <View className="flex-1 justify-center bg-white dark:bg-primary-dark">
+    <View className="flex-1 justify-center items-center bg-white dark:bg-primary-dark">
       <StatusBar hidden />
       <Animated.View
         className="w-28 h-28 mx-auto mb-10 rounded-full border-[14px] border-[#E9E9E9] border-t-[14px] border-t-[#102E34] border-r-[14px] border-r-[#102E34]"

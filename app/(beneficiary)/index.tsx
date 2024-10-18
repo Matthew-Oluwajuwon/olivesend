@@ -17,6 +17,7 @@ import BeneficiaryList from "@/components/beneficiary/BeneficiaryList";
 import { useBeneficiary } from "@/hooks";
 import Flower from "@/components/Flower";
 import { router } from "expo-router";
+import SearchBar from "@/components/SearchBar";
 
 const Beneficiary = () => {
   const { colorScheme } = useColorScheme();
@@ -30,20 +31,7 @@ const Beneficiary = () => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View className="dark:bg-primary-dark py-5 flex-1 relative">
-          <View className="mb-7 mx-5 border border-[#D8D8D8] dark:border-[#333333] bg-[#F0F0F0] dark:bg-[#242424] rounded-[20px] p-[15px] flex-row items-center">
-            <Ionicons
-              name="search-outline"
-              size={24}
-              color={colorScheme === "dark" ? "white" : "black"}
-            />
-            <TextInput
-              placeholder="Enter name to search"
-              onChangeText={handleSearch}
-              value={searchText}
-              placeholderTextColor="#888888"
-              className="ml-5 dark:text-white w-full"
-            />
-          </View>
+          <SearchBar onSearch={handleSearch} value={searchText} />
           <TouchableOpacity onPress={() => router.navigate("/(beneficiary)/createBeneficiary")} className="flex-row items-center justify-between px-5">
             <View className="flex-row items-center">
               <SvgXml

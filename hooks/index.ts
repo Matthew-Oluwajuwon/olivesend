@@ -19,6 +19,7 @@ import useDateTimeFormat from "./useDateTimeFormat";
 import useLogin from "./useLogin";
 import useScreenInitialize from "./useScreenInitialize";
 import { useSecureStore } from "./useSecureStore";
+import useShare from "./useShare";
 import useTimer from "./useTimer";
 
 export {
@@ -43,5 +44,6 @@ export {
   useVerifyBeneficiary,
   useDeleteBeneficiary,
   useBeneficiarySelection,
-  useInitiateFundTransfer
+  useInitiateFundTransfer,
+  useShare
 };

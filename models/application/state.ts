@@ -1,5 +1,5 @@
 import { BeneficiaryRequest, InitiateFundTransfer, PasswordRequest, PinRequest, VerifyEmail } from "../client/request";
-import { Bank, Beneficiary, InitiatingPaymentResponse, LoginResponse, Wallet } from "../client/response";
+import { Bank, Beneficiary, InitiatingPaymentResponse, LoginResponse, TransactionReceipt, Wallet } from "../client/response";
 
 export type DocType = "NATIONAL_ID_CARD" | "INTERNATIONAL_PASSPORT" | "DRIVER_LICENSE" | undefined;
 export interface Auth {
@@ -34,4 +34,5 @@ export interface Beneficiaries {
 export interface Send {
   initiateFundTransfer: InitiateFundTransfer;
   paymentInitiationResponse: InitiatingPaymentResponse;
+  receipt: TransactionReceipt
 }

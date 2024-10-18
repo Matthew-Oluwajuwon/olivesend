@@ -7,12 +7,13 @@ import { TransactionDTOS } from "@/models/client/response";
 import { useDateTimeFormat } from "@/hooks";
 import { capitalizeFirstLetter } from "@/utils/helper";
 import { useColorScheme } from "nativewind";
+import { router } from "expo-router";
 
 const PageWrapper: React.FC<{ children: ReactNode }> = ({ children }) => (
   <View className="bg-white dark:bg-primary-dark flex-1 p-3">
     <View className="flex-row justify-between items-center">
       <Text className="font-InterBold text-xl dark:text-white">Transactions</Text>
-      <TouchableOpacity className="border-b border-black dark:border-white">
+      <TouchableOpacity onPress={() => router.navigate("/(protected)/transactions")} className="border-b border-black dark:border-white">
         <Text className="dark:text-white font-InterRegular">See all</Text>
       </TouchableOpacity>
     </View>

@@ -21,7 +21,8 @@ export const endpoints = {
     getCountries: "transaction/countries",
     getTransactions: "transaction/history",
     corridorRate: "transaction/",
-    initiateTransfer: "transaction/fundTransfer"
+    initiateTransfer: "transaction/fundTransfer",
+    confirmTransaction: "transaction/confirmTransaction",
   },
   beneficiary: {
     getBeneficiaries: "beneficiary/getAllBeneficiaries",

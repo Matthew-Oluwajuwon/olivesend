@@ -20,18 +20,14 @@ import Bank from "@/components/beneficiary/Bank";
 import Button from "@/components/Button";
 import { useAppSelector } from "@/store/hooks";
 import Flower from "@/components/Flower";
+import TabSwitcher from "@/components/TabSwitcher";
 
 const createBeneficiary = () => {
   const state = useAppSelector((state) => {
     return state.beneficiary;
   });
-  const {
-    loading,
-    options,
-    values,
-    handleChange,
-    onChangeDeliveryMethod,
-  } = useBeneficiaryValidation();
+  const { loading, options, values, handleChange, onChangeDeliveryMethod } =
+    useBeneficiaryValidation();
   const { colorScheme } = useColorScheme();
   const { onVerify, verifying } = useVerifyBeneficiary();
   interface DataProp {
@@ -43,14 +39,23 @@ const createBeneficiary = () => {
     {
       icon: walletSvg({
         color:
-          state.deliveryMethod === "WALLET" ? "black" : colorScheme === "dark" ? "#C4C4C4" : "#888888",
+          state.deliveryMethod === "WALLET"
+            ? "black"
+            : colorScheme === "dark"
+            ? "#C4C4C4"
+            : "#888888",
       }),
       label: "Wallet",
       value: "WALLET",
     },
     {
       icon: bankSvg({
-        color: state.deliveryMethod === "BANK" ? "black" : colorScheme === "dark" ? "#C4C4C4" : "#888888",
+        color:
+          state.deliveryMethod === "BANK"
+            ? "black"
+            : colorScheme === "dark"
+            ? "#C4C4C4"
+            : "#888888",
       }),
       label: "Bank",
       value: "BANK",
@@ -82,29 +87,21 @@ const createBeneficiary = () => {
               <Text className="text-black dark:text-white mb-2">Delivery method</Text>
               <View className="flex-row items-center p-1 justify-between rounded-[20px] bg-[#F0F0F0] dark:bg-[#242424]">
                 {data.map((item, index) => (
-                  <Pressable
+                  <TabSwitcher
                     onPress={() => onChangeDeliveryMethod(item.value)}
-                    className="flex-row items-center justify-center w-1/2 py-4 rounded-[20px]"
-                    style={{
-                      backgroundColor: state.deliveryMethod === item.value ? "white" : "transparent",
-                    }}
+                    index={index}
                     key={index}
-                  >
-                    <SvgXml width="20" height="20" xml={item.icon} />
-                    <Text
-                      className="ml-3 font-InterRegular"
-                      style={{
-                        color:
-                          state.deliveryMethod === item.value
-                            ? "black"
-                            : colorScheme === "dark"
-                            ? "#C4C4C4"
-                            : "#888888",
-                      }}
-                    >
-                      {item.label}
-                    </Text>
-                  </Pressable>
+                    showIcon
+                    item={item}
+                    color={
+                      state.deliveryMethod === item.value
+                        ? "black"
+                        : colorScheme === "dark"
+                        ? "#C4C4C4"
+                        : "#888888"
+                    }
+                    backgroundColor={state.deliveryMethod === item.value ? "white" : "transparent"}
+                  />
                 ))}
               </View>
             </View>
@@ -116,12 +113,7 @@ const createBeneficiary = () => {
               Ensure the account detail is correct. There is no guarantee of refund for transfer to
               incorrect account details
             </Text>
-            <Button
-              type="primary"
-              loading={verifying}
-              onPress={onVerify}
-              disabled={state.disabled}
-            >
+            <Button type="primary" loading={verifying} onPress={onVerify} disabled={state.disabled}>
               Save
             </Button>
           </View>

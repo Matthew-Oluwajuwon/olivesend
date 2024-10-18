@@ -184,6 +184,30 @@ const NavigationContainer = () => {
         options={{
           headerBackVisible: false,
           headerLeft: undefined,
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: "white",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="(protected)/receipt"
+        options={{
+          headerBackVisible: false,
+          headerLeft: undefined,
+          contentStyle: {
+            backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="(protected)/transactions"
+        options={{
+          headerLeft: ({ canGoBack }) => (
+            <HeaderLeft canGoBack={canGoBack} title="Transaction" />
+          ),
+          headerShadowVisible: false,
+          headerLargeTitleShadowVisible: false,
           contentStyle: {
             paddingVertical: 10,
             backgroundColor: colorScheme === "dark" ? "#121212" : "white",

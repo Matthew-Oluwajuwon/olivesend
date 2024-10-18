@@ -154,3 +154,28 @@ export class InitiatingPaymentResponse {
   transactionReference: string = "";
   transactionTotal: number = 0;
 }
+
+export class TransactionReceipt {
+  accountName: string = "";
+  accountNumber: string = "";
+  amount: string = "";
+  bankName: string = "";
+  channel: string = "";
+  countryId: number = 0;
+  createdAt: string = "";
+  deliveryMethod: string = "";
+  walletAccountName: any;
+  walletAccountNumber: any;
+  email: any;
+  fundSource: string = "";
+  id: number = 0;
+  momoPhoneNumber: any;
+  beneficiaryPhoneNumber: string = "";
+  reference: string = "";
+  status: string = "";
+  totalAmount: string = "";
+  transferPurpose: string = "";
+  updatedAt: string = "";
+  userId: number = 0;
+  walletType: any;
+}
