@@ -4,16 +4,18 @@ import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useGetMutateDataQuery } from "@/store/api.config";
 import { endpoints } from "@/store/endpoints";
 import { TransactionDTOS } from "@/models/client/response";
-import { useDateTimeFormat } from "@/hooks";
-import { capitalizeFirstLetter } from "@/utils/helper";
 import { useColorScheme } from "nativewind";
 import { router } from "expo-router";
+import TransactionRow from "../TransactionRow";
 
 const PageWrapper: React.FC<{ children: ReactNode }> = ({ children }) => (
   <View className="bg-white dark:bg-primary-dark flex-1 p-3">
     <View className="flex-row justify-between items-center">
       <Text className="font-InterBold text-xl dark:text-white">Transactions</Text>
-      <TouchableOpacity onPress={() => router.navigate("/(protected)/transactions")} className="border-b border-black dark:border-white">
+      <TouchableOpacity
+        onPress={() => router.navigate("/(protected)/transactions")}
+        className="border-b border-black dark:border-white"
+      >
         <Text className="dark:text-white font-InterRegular">See all</Text>
       </TouchableOpacity>
     </View>
@@ -23,7 +25,6 @@ const PageWrapper: React.FC<{ children: ReactNode }> = ({ children }) => (
 
 const TopTransactions = () => {
   const { colorScheme } = useColorScheme();
-  const { onFormattedDateTime } = useDateTimeFormat();
   const { data, isFetching, isLoading, isError } = useGetMutateDataQuery({
     getUrl: endpoints.transaction.getTransactions + `?limit=5&page=1`,
   });
@@ -66,47 +67,7 @@ const TopTransactions = () => {
   return (
     <PageWrapper>
       {dataSource?.map((item, index) => (
-        <TouchableOpacity key={index}>
-          <View className="my-5 flex-row justify-between items-center">
-            <View>
-              <Text className="font-InterBold dark:text-white">
-                {item.totalAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
-              </Text>
-              <Text className="font-InterRegular dark:text-white">
-                {item.amount.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
-              </Text>
-            </View>
-            <View className="items-end">
-              <Text className="font-InterRegular dark:text-white">
-                {item.accountName ??
-                  item.walletAccountName ??
-                  (item.deliveryMethod?.toLowerCase() === "airtime" ? "Airtime" : "N/A")}
-              </Text>
-              <View className="flex-row items-center">
-                <View className="rounded-full p-[6px] px-2 flex-row items-center mr-1 bg-[#F0F0F0] dark:bg-[#242424]">
-                  <View
-                    className="w-[5px] h-[5px] rounded-full"
-                    style={{
-                      backgroundColor:
-                        item.status?.toLowerCase() === "pending" ||
-                        item.status?.toLowerCase() === "expired"
-                          ? "#FF6D00"
-                          : item.status?.toLowerCase().includes("success")
-                          ? "#38c16f"
-                          : "#ff0000",
-                    }}
-                  />
-                  <Text className="ml-1 font-InterRegular dark:text-white">
-                    {capitalizeFirstLetter(item.status)}{" "}
-                  </Text>
-                </View>
-                <Text className="font-InterRegular dark:text-white">
-                  {onFormattedDateTime(item.createdAt)}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
+        <TransactionRow item={item} key={index} />
       ))}
     </PageWrapper>
   );

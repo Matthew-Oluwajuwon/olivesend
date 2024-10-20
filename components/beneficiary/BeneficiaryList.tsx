@@ -3,15 +3,12 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  Image,
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
 import React, { useState } from "react";
 import { Beneficiary } from "@/models/client/response";
-import { capitalizeFirstLetter, maskAccountNumber } from "@/utils/helper";
 import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
-import { SvgXml } from "react-native-svg";
 import { useColorScheme } from "nativewind";
 import { useBeneficiary, useDeleteBeneficiary } from "@/hooks";
 import BeneficiaryDetail from "./BeneficiaryDetail";

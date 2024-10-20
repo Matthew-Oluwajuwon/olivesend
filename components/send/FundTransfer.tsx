@@ -125,7 +125,7 @@ const FundTransfer = () => {
             onPress={() => router.navigate("/(beneficiary)")}
             className="bg-[#102E34] dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#333333] flex-row items-center justify-between pr-5"
           >
-            <Text className="p-7 px-4 text-[#9D9D9D]">Click to add a beneficiary</Text>
+            <Text className="p-6 px-4 text-[#9D9D9D]">Click to add a beneficiary</Text>
             <Image source={require("@/assets/icons/add-circle.png")} />
           </TouchableOpacity>
         )}

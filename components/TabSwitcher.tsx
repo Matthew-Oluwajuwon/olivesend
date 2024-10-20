@@ -30,7 +30,7 @@ const TabSwitcher: React.FC<TabSwitcherProps> = ({
     return (
     <Pressable
       onPress={onPress}
-      className="flex-row items-center justify-center w-1/2 py-4 rounded-[20px]"
+      className="flex-row items-center justify-center w-1/2 py-4 rounded-[16px]"
       style={{
         backgroundColor,
       }}

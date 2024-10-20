@@ -3,11 +3,13 @@ import { authReducer } from "./slice/auth.slice";
 import { apiConfig, authConfig } from "./api.config";
 import { beneficiaryReducer } from "./slice/beneficiary.slice";
 import { sendReducer } from "./slice/send.slice";
+import { transactionReducer } from "./slice/transaction.slice";
 
 const reducer = combineReducers({
   auth: authReducer,
   beneficiary: beneficiaryReducer,
   send: sendReducer,
+  transaction: transactionReducer,
   [authConfig.reducerPath]: authConfig.reducer,
   [apiConfig.reducerPath]: apiConfig.reducer,
 });

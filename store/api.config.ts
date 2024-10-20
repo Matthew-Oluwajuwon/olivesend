@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseQueryWithReauth, baseQuery } from "./baseQueryWithReauth";
+import { endpoints } from "./endpoints";
+import { API, Transaction } from "@/models/client/response";
 
 export const authConfig = createApi({
   reducerPath: "authConfig",
@@ -29,7 +31,7 @@ export const authConfig = createApi({
 export const apiConfig = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth(baseQuery),
-  tagTypes: ["getData"],
+  tagTypes: ["getData", "Transactions"],
   refetchOnFocus: false,
   refetchOnMountOrArgChange: false,
   endpoints: (builder) => ({
@@ -56,6 +58,41 @@ export const apiConfig = createApi({
       }),
       invalidatesTags: (_result, _error, arg) => [{ type: "getData", id: arg.id }],
     }),
+    getTransactions: builder.query<API<Transaction>, { page: number; limit: number }>({
+      query: ({ page, limit }) => ({
+        url: `${endpoints.transaction.getTransactions}?page=${page}&limit=${limit}`,
+      }),
+      serializeQueryArgs: ({ endpointName, queryArgs }) => `${endpointName}-page:${queryArgs.page}-limit:${queryArgs.limit}`,
+      merge: (currentCache, newItems, { arg: { page } }) => {
+        if (page === 1) {
+          // Replace the cache data when on the first page
+          currentCache.data.transactions = [...newItems.data.transactions];
+        } else {
+          // Append to the existing cache when on other pages
+          currentCache.data.transactions.push(...newItems.data.transactions);
+        }
+      },
+      transformResponse: (response: API<Transaction>, meta, arg) => {
+        // Return response with transactions and additional page info
+        return {
+          data: response.data,
+          total: response.data.total,
+          responseCode: response.responseCode,
+          responseMessage: response.responseMessage,
+          message: "",
+        };
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.transactions?.map((transaction) => ({
+                type: "Transactions" as const,
+                id: transaction.id,
+              })),
+              "Transactions",
+            ]
+          : ["Transactions"],
+    }),
   }),
 });
 
@@ -64,6 +101,7 @@ export const {
   useLazyGetDataQuery,
   useMutateDataMutation,
   useGetMutateDataQuery,
+  useGetTransactionsQuery,
 } = apiConfig;
 
 export const {

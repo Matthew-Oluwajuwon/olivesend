@@ -2,6 +2,8 @@ import { BeneficiaryRequest, InitiateFundTransfer, PasswordRequest, PinRequest, 
 import { Bank, Beneficiary, InitiatingPaymentResponse, LoginResponse, TransactionReceipt, Wallet } from "../client/response";
 
 export type DocType = "NATIONAL_ID_CARD" | "INTERNATIONAL_PASSPORT" | "DRIVER_LICENSE" | undefined;
+export type TabOptionType = "SEND" | "AIRTIME";
+
 export interface Auth {
   hasNumber: boolean;
   isLowerCase: boolean;
@@ -35,4 +37,10 @@ export interface Send {
   initiateFundTransfer: InitiateFundTransfer;
   paymentInitiationResponse: InitiatingPaymentResponse;
   receipt: TransactionReceipt
+}
+
+export interface Transaction {
+  type: "SEND" | "AIRTIME";
+  page: number;
+  limit: number;
 }
