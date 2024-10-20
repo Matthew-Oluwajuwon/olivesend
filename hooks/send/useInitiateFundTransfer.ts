@@ -30,10 +30,10 @@ const useInitiateFundTransfer = () => {
     },
     [dispatch]
   );
-
   const onNavigatingToPaymentGateway = useCallback(
-    async (data: Array<any>, request: InitiateFundTransfer) => {
-      if (data.length > 0) {
+      async (data: Array<any>, request: InitiateFundTransfer) => {
+
+        if (data.length > 0) {
         router.navigate("/(protected)/paymentMethods");
       } else {
         try {

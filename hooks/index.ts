@@ -13,6 +13,7 @@ import usePersonalDetails from "./onboarding/usePersonalDetails";
 import usePinCreation from "./onboarding/usePinCreation";
 import useSendEmailVerification from "./onboarding/useSendEmailVerification";
 import useInitiateFundTransfer from "./send/useInitiateFundTransfer";
+import useCalculateTransferPayload from "./transaction/useCalculateTransferPayload";
 import useGetTransactionHistory from "./transaction/useGetTransactionHistory";
 import useTransactionTypeChange from "./transaction/useTransactionTypeChange";
 import useAmountFormatter from "./useAmountFormatter";
@@ -49,5 +50,6 @@ export {
   useInitiateFundTransfer,
   useShare,
   useTransactionTypeChange,
-  useGetTransactionHistory
+  useGetTransactionHistory,
+  useCalculateTransferPayload
 };

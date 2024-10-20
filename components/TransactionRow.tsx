@@ -3,6 +3,7 @@ import React from "react";
 import { TransactionDTOS } from "@/models/client/response";
 import { capitalizeFirstLetter } from "@/utils/helper";
 import { useDateTimeFormat } from "@/hooks";
+import { router } from "expo-router";
 
 interface TransactionRowProps {
   item: TransactionDTOS;
@@ -10,8 +11,16 @@ interface TransactionRowProps {
 
 const TransactionRow: React.FC<TransactionRowProps> = ({ item }) => {
   const { onFormattedDateTime } = useDateTimeFormat();
+
+  const onPress = () => {
+    router.navigate({
+      pathname: "/(protected)/transactionDetails",
+      params: { item: JSON.stringify(item) },
+    });
+  };
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View className="my-5 flex-row justify-between items-center">
         <View>
           <Text className="font-InterBold dark:text-white">
@@ -23,9 +32,9 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ item }) => {
         </View>
         <View className="items-end">
           <Text className="font-InterRegular dark:text-white">
-            {item.accountName ??
-              item.walletAccountName ??
-              (item.deliveryMethod?.toLowerCase() === "airtime" ? "Airtime" : "N/A")}
+            {capitalizeFirstLetter(item.accountName ||
+              item.walletAccountName ||
+              (item.deliveryMethod?.toLowerCase() === "airtime" ? "Airtime" : "N/A"))}
           </Text>
           <View className="flex-row items-center">
             <View className="rounded-full p-[6px] px-2 flex-row items-center mr-1 bg-[#F0F0F0] dark:bg-[#242424]">

@@ -4,7 +4,12 @@ import { CorridorRate, TransactingCountries } from "@/models/client/response";
 import { useGetDataQuery } from "@/store/api.config";
 import { endpoints } from "@/store/endpoints";
 import Select, { SelectProps } from "../Select";
-import { useAmountFormatter, useBeneficiarySelection, useInitiateFundTransfer } from "@/hooks";
+import {
+  useAmountFormatter,
+  useBeneficiarySelection,
+  useCalculateTransferPayload,
+  useInitiateFundTransfer,
+} from "@/hooks";
 import Button from "../Button";
 import { router } from "expo-router";
 import { useAppSelector } from "@/store/hooks";
@@ -32,22 +37,11 @@ const FundTransfer = () => {
       }))
     : [];
 
-  const {
-    data: corridorRate,
-    isFetching: rateIsFetching,
-    isLoading: rateIsLoading,
-  } = useGetDataQuery({
-    getUrl:
-      endpoints.transaction.corridorRate + `${selectedCountry || options[0]?.value}/corridorRate`,
-  });
-  const rates: CorridorRate = corridorRate;
-
-  const transferFee = rates
-    ? rates?.feePercentage * amount / 100 > rates?.feeCap
-      ? rates?.feeCap
-      : rates?.feePercentage * amount / 100
-    : 0;
-  const totalAmount = transferFee + amount;
+  const { transferPayload, loading, transferFee, totalAmount, rates } = useCalculateTransferPayload(
+    selectedCountry || (options[0]?.value as string),
+    amount,
+    beneficiary?.record?.id
+  );
 
   const statOptions = [
     {
@@ -66,16 +60,6 @@ const FundTransfer = () => {
       amount: rates?.rate?.toString(),
     },
   ];
-
-  const transferPayload = {
-    amount,
-    beneficiaryId: beneficiary?.record?.id,
-    channel: "mobile",
-    fundSource: "",
-    transferPurpose: "",
-    totalAmount,
-    totalFees: transferFee,
-  };
 
   const disableContinue = transferPayload.beneficiaryId === 0 || transferPayload.amount === 0;
 
@@ -157,7 +141,7 @@ const FundTransfer = () => {
               <Image source={option.icon} />
               <Text className="text-white font-InterRegular text-sm">{option.label}</Text>
             </View>
-            {rateIsFetching || rateIsLoading ? (
+            {loading ? (
               <ActivityIndicator color="white" />
             ) : (
               <Text className="text-white font-InterRegular">

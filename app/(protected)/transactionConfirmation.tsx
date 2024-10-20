@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import OnboardingHeader from "@/components/OnboardingHeader";
 import Select, { SelectProps } from "@/components/Select";
@@ -7,7 +7,6 @@ import { capitalizeFirstLetter, maskAccountNumber } from "@/utils/helper";
 import { useAmountFormatter, useInitiateFundTransfer } from "@/hooks";
 import Flower from "@/components/Flower";
 import Button from "@/components/Button";
-import { router } from "expo-router";
 import { setSendState } from "@/store/slice";
 import { AppPayload } from "@/models/application/payload";
 import { useGetDataQuery } from "@/store/api.config";
@@ -93,22 +92,31 @@ const TransactionConfirmation = () => {
 
   const recipientDetails = [
     {
-      label: "Account Number",
+      label: beneficiary?.record?.deliveryMethod?.toUpperCase() === "BANK" ? "Account Number" : "Phone Number",
       value: maskAccountNumber(
-        beneficiary?.record?.accountNumber || beneficiary?.record?.walletAccountNumber
+        beneficiary?.record?.accountNumber || beneficiary?.record?.walletAccountNumber || beneficiary.record?.beneficiaryPhoneNumber
       ),
+      key: 1
     },
     {
       label: "Account Name",
       value: capitalizeFirstLetter(
         beneficiary?.record?.accountName || beneficiary?.record?.walletAccountName
       ),
+      key: 2
     },
     {
       label: "Delivery Method",
-      value: beneficiary?.record?.walletType || beneficiary?.record?.bankName,
+      value: beneficiary?.record?.deliveryMethod,
+      key: 3
     },
-  ];
+  ]
+  .filter(x => {
+    if (beneficiary?.record?.deliveryMethod?.toUpperCase() !== "BANK") {
+      return x.key !== 2
+    }
+    return x
+  })
 
   const transferDetails = [
     {
@@ -121,7 +129,7 @@ const TransactionConfirmation = () => {
     },
     {
       label: `${capitalizeFirstLetter(
-        beneficiary?.record?.accountName || beneficiary?.record?.walletAccountName
+        beneficiary?.record?.accountName || beneficiary?.record?.walletAccountName || beneficiary.record?.beneficiaryPhoneNumber
       )} gets`,
       value: `$${formattedAmount(state.initiateFundTransfer?.amount)}`,
     },
@@ -167,12 +175,12 @@ const TransactionConfirmation = () => {
           <View className="mt-2 flex-1">
             <View className="flex-row justify-between items-center mb-5">
               <Text className="dark:text-white font-InterBold text-base">Recipient Details</Text>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => router.back()}
                 className="border-b border-black dark:border-white"
               >
                 <Text className="dark:text-white">Edit</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             {recipientDetails.map((item, index) => (
               <View key={index} className="mb-5">
@@ -184,12 +192,12 @@ const TransactionConfirmation = () => {
           <View className="mt-2 flex-1">
             <View className="flex-row justify-between items-center mb-5">
               <Text className="dark:text-white font-InterBold text-base">Transfer Details</Text>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => router.back()}
                 className="border-b border-black dark:border-white"
               >
                 <Text className="dark:text-white">Edit</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             {transferDetails.map((item, index) => (
               <View key={index} className="mb-5">

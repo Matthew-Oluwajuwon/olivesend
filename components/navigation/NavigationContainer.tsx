@@ -214,6 +214,20 @@ const NavigationContainer = () => {
           },
         }}
       />
+      <Stack.Screen
+        name="(protected)/transactionDetails"
+        options={{
+          headerLeft: ({ canGoBack }) => (
+            <HeaderLeft canGoBack={canGoBack} title="Transaction details" />
+          ),
+          headerShadowVisible: false,
+          headerLargeTitleShadowVisible: false,
+          contentStyle: {
+            paddingVertical: 10,
+            backgroundColor: colorScheme === "dark" ? "#121212" : "white",
+          },
+        }}
+      />
     </Stack>
   );
 };

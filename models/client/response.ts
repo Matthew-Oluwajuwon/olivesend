@@ -116,6 +116,7 @@ export class Beneficiary {
   walletAccountNumber: any;
   walletType: any;
   country: Country = new Country();
+  beneficiaryPhoneNumber?: string;
 }
 
 export class Country {
