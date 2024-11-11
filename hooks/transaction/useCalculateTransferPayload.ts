@@ -5,7 +5,7 @@ import { endpoints } from "@/store/endpoints";
 const useCalculateTransferPayload = (
   selectedCountry: string,
   amount: number,
-  beneficiaryId: number
+  beneficiaryId?: number
 ) => {
 
     const {
@@ -26,7 +26,7 @@ const useCalculateTransferPayload = (
 
   const transferPayload = {
     amount,
-    beneficiaryId,
+    beneficiaryId: beneficiaryId as number,
     channel: "mobile",
     fundSource: "",
     transferPurpose: "",

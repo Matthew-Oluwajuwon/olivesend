@@ -23,6 +23,8 @@ export const endpoints = {
     corridorRate: "transaction/",
     initiateTransfer: "transaction/fundTransfer",
     confirmTransaction: "transaction/confirmTransaction",
+    getNetworkProviders: "airtime/getNetworkProvidersByCountryId/",
+    purchaseAirtime: "airtime/purchase"
   },
   beneficiary: {
     getBeneficiaries: "beneficiary/getAllBeneficiaries",

@@ -17,7 +17,7 @@ const ResponseScreen: React.FC<ResponseScreenProps> = ({ message, title, execute
     const timeout = setTimeout(() => {
       dispatch(setAuthState(new AppPayload("showSuccessOnboarding", false)))
       
-    }, 1000);
+    }, 2000);
     executeOnMount();
 
     return () => {
@@ -28,8 +28,8 @@ const ResponseScreen: React.FC<ResponseScreenProps> = ({ message, title, execute
   return (
     <View className="flex-1 items-center justify-center relative">
       <Image source={require("@/assets/images/success-check.png")} />
-      <Text className="font-[inter-bold] text-2xl dark:text-white">{title}</Text>
-      <Text className={`font-[inter-regular] mt-3 text-sm text-[#888888]`}>{message}</Text>
+      <Text className="font-InterBold text-2xl dark:text-white">{title}</Text>
+      <Text className={`font-InterRegular mt-3 text-sm text-[#888888]`}>{message}</Text>
       <Flower />
     </View>
   );

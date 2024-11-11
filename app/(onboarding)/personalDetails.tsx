@@ -41,6 +41,7 @@ const PersonalDetails = () => {
     label: item.name,
     value: item.name,
     image: item.countryFlag,
+    code: item.countryCode
   }));
 
   useEffect(() => {
@@ -140,6 +141,7 @@ const PersonalDetails = () => {
                 label="Phone number"
                 type="phoneNumber"
                 touched={touched.phoneNumber}
+                code={options.find(x => x.value === values.country)?.code || options[0].code}
                 inputProps={{
                   value: values.phoneNumber,
                   onChangeText: handleChange("phoneNumber"),

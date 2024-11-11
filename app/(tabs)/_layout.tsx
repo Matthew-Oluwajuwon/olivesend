@@ -2,9 +2,12 @@ import React from "react";
 import { Image, View } from "react-native";
 import { Tabs } from "expo-router";
 import { useColorScheme } from "nativewind";
+import { useSecureStore } from "@/hooks";
 
 export default function TabLayout() {
   const { colorScheme } = useColorScheme();
+  const { getItem } = useSecureStore();
+  console.log(getItem("userInfo"))
   return (
     <Tabs>
       <Tabs.Screen

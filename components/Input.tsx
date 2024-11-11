@@ -11,6 +11,7 @@ export interface InputProps extends ViewProps {
   touched?: boolean;
   suffix?: ReactNode;
   prefix?: ReactNode;
+  code?: string;
   type?: "text" | "phoneNumber" | "number";
 }
 
@@ -26,6 +27,7 @@ const Input: React.FC<InputProps> = (props) => {
     suffix,
     className,
     type,
+    code,
     ...rest
   } = props;
   const { colorScheme } = useColorScheme();
@@ -48,7 +50,7 @@ const Input: React.FC<InputProps> = (props) => {
                 : "border-gray-500 dark:border-dark-gray-500"
             } rounded-[20px] `}
           >
-            <Text className="text-black dark:text-white">+234</Text>
+            <Text className="text-black dark:text-white">{code || "+231"}</Text>
           </View>
           <View
             className={`border ${

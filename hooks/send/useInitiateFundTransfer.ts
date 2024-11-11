@@ -1,5 +1,5 @@
 import { AppPayload } from "@/models/application/payload";
-import { InitiateFundTransfer } from "@/models/client/request";
+import { InitiateAirtime, InitiateFundTransfer } from "@/models/client/request";
 import { useMutateDataMutation } from "@/store/api.config";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setSendState } from "@/store/slice";
@@ -30,26 +30,50 @@ const useInitiateFundTransfer = () => {
     },
     [dispatch]
   );
-  const onNavigatingToPaymentGateway = useCallback(
-      async (data: Array<any>, request: InitiateFundTransfer) => {
 
-        if (data.length > 0) {
+  const onInitiateAirtime = useCallback(
+    (payload: InitiateAirtime) => {
+      dispatch(
+        setSendState(
+          new AppPayload("initiateAirtime", {
+            ...state.initiateAirtime,
+            ...payload,
+          })
+        )
+      );
+    },
+    [dispatch]
+  );
+
+  const onNavigatingToPaymentGateway = useCallback(
+    async (
+      data: Array<any>,
+      type: "AIRTIME" | "TRANSFER",
+      request?: InitiateFundTransfer,
+      airtimeRequest?: InitiateAirtime
+    ) => {
+      if (data.length > 0) {
         router.navigate("/(protected)/paymentMethods");
       } else {
         try {
           const response: any = await makePayment({
-            postUrl: endpoints.transaction.initiateTransfer,
+            postUrl:
+              type === "AIRTIME"
+                ? endpoints.transaction.purchaseAirtime
+                : endpoints.transaction.initiateTransfer,
             formMethod: "POST",
-            request: {
-              beneficiaryId: request.beneficiaryId,
-              amount: request.amount,
-              transferPurpose: request.transferPurpose,
-              fundSource: request.fundSource,
-              channel: request.channel,
-            },
+            request:
+              type === "TRANSFER"
+                ? {
+                    beneficiaryId: request?.beneficiaryId,
+                    amount: request?.amount,
+                    transferPurpose: request?.transferPurpose,
+                    fundSource: request?.fundSource,
+                    channel: request?.channel,
+                  }
+                : airtimeRequest,
           });
           const apiResponse: API<InitiatingPaymentResponse> = response.error?.data || response.data;
-
           if (apiResponse.responseCode === "00") {
             router.navigate("/(protected)/paymentWebview");
             dispatch(setSendState(new AppPayload("paymentInitiationResponse", apiResponse.data)));
@@ -73,6 +97,7 @@ const useInitiateFundTransfer = () => {
   return {
     onInitiateFundsTransfer,
     onNavigatingToPaymentGateway,
+    onInitiateAirtime,
     loading: result.isLoading,
   };
 };

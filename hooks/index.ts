@@ -12,11 +12,12 @@ import useOtpVerification from "./onboarding/useOtpVerification";
 import usePersonalDetails from "./onboarding/usePersonalDetails";
 import usePinCreation from "./onboarding/usePinCreation";
 import useSendEmailVerification from "./onboarding/useSendEmailVerification";
+import { useAirtime } from "./send/useAirtime";
 import useInitiateFundTransfer from "./send/useInitiateFundTransfer";
 import useCalculateTransferPayload from "./transaction/useCalculateTransferPayload";
 import useGetTransactionHistory from "./transaction/useGetTransactionHistory";
 import useTransactionTypeChange from "./transaction/useTransactionTypeChange";
-import useAmountFormatter from "./useAmountFormatter";
+import useAmountFormatter, { useAmountFormatterWithCommas } from "./useAmountFormatter";
 import { useAuthQuery } from "./useAuthQuery";
 import useDateTimeFormat from "./useDateTimeFormat";
 import useLogin from "./useLogin";
@@ -51,5 +52,7 @@ export {
   useShare,
   useTransactionTypeChange,
   useGetTransactionHistory,
-  useCalculateTransferPayload
+  useCalculateTransferPayload,
+  useAmountFormatterWithCommas,
+  useAirtime
 };

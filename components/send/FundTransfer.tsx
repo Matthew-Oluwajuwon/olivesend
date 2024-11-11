@@ -62,6 +62,7 @@ const FundTransfer = () => {
   ];
 
   const disableContinue = transferPayload.beneficiaryId === 0 || transferPayload.amount === 0;
+  const isGreaterThanAllowedFigure = amount > 500;
 
   return (
     <View className="bg-[#002026] dark:bg-primary-dark p-3 pb-10">
@@ -113,26 +114,37 @@ const FundTransfer = () => {
             <Image source={require("@/assets/icons/add-circle.png")} />
           </TouchableOpacity>
         )}
-        <View className="mt-5 flex-row items-center justify-between">
-          <View className="bg-[#102E34] p-3 w-[45%] dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#333333]">
-            <Text className="font-InterRegular text-[#9D9D9D]">You send</Text>
-            <View className="flex-row mt-2">
-              <Text className="text-white mr-1">$</Text>
-              <TextInput
-                className="w-full text-white"
-                placeholderTextColor="white"
-                placeholder="0.00"
-                keyboardType="number-pad"
-                onChangeText={(value) => setAmount(Number(value))}
-              />
+        <View className="relative pb-5">
+          <View className="mt-5 flex-row items-center justify-between">
+            <View className="bg-[#102E34] p-3 w-[45%] dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#333333]">
+              <Text className="font-InterRegular text-[#9D9D9D]">You send</Text>
+              <View className="flex-row mt-2">
+                <Text className="text-white mr-1">$</Text>
+                <TextInput
+                  className="w-full text-white"
+                  placeholderTextColor="white"
+                  placeholder="0.00"
+                  value={String(amount)}
+                  maxLength={3}
+                  keyboardType="number-pad"
+                  onChangeText={(value) => setAmount(Number(value))}
+                />
+              </View>
+            </View>
+            <Image source={require("@/assets/images/exchange.png")} className="mx-3-" />
+            <View className="bg-[#102E34] w-[45%] p-3 dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#333333]">
+              <Text className="font-InterRegular text-[#9D9D9D]">They receive</Text>
+              <Text className="font-InterRegular text-white mt-2">
+                USD {formattedAmount(amount) || "0.00"}
+              </Text>
             </View>
           </View>
-          <Image source={require("@/assets/images/exchange.png")} className="mx-3-" />
-          <View className="bg-[#102E34] w-[45%] p-3 dark:bg-[#1F1F1F] border border-[#005666] rounded-[20px] dark:border-[#333333]">
-            <Text className="font-InterRegular text-[#9D9D9D]">They receive</Text>
-            <Text className="font-InterRegular text-white mt-2">USD 30.00</Text>
-          </View>
         </View>
+        {isGreaterThanAllowedFigure && (
+          <Text className="text-red-500 text-[13px] absolute bottom-0 left-1/4 -translate-x-1/2">
+            Amount cannot exceed $500
+          </Text>
+        )}
       </View>
       <View className="mt-5">
         {statOptions.map((option, index) => (
@@ -154,13 +166,17 @@ const FundTransfer = () => {
       <Button
         type="primary"
         className="bg-[#A5E557] mt-5"
-        disabled={disableContinue}
+        disabled={disableContinue || isGreaterThanAllowedFigure}
         textProps={{
           className: "text-black",
         }}
         onPress={() => {
           onInitiateFundsTransfer(transferPayload);
-          router.navigate("/(protected)/transactionConfirmation");
+          setAmount(0.0);
+          router.navigate({
+            pathname: "/(protected)/transactionConfirmation",
+            params: { type: "TRANSFER" },
+          });
         }}
       >
         Continue

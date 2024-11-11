@@ -22,6 +22,7 @@ interface Option {
   label: string;
   value: string | number;
   image?: string; // Optional image URL
+  code?: string;
 }
 
 export interface SelectProps extends TouchableOpacityProps {

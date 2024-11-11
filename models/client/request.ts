@@ -48,3 +48,15 @@ export class InitiateFundTransfer {
   totalAmount: number = 0;
   totalFees: number = 0;
 }
+
+export class InitiateAirtime {
+  fundSource: string = "";
+  transferPurpose: string = "";
+  channel: string = "mobile";
+  countryCode: string = "";
+  amount: number = 0;
+  billId: string = "";
+  beneficiaryPhoneNumber: string = "";
+  billProviderId: string = "";
+  operatorId: string = "";
+}

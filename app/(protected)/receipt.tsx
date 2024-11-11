@@ -26,7 +26,7 @@ const Receipt = () => {
             name="close-outline"
             color={colorScheme === "dark" ? "white" : "black"}
             size={24}
-            onPress={() => (router.canGoBack() ? router.back() : router.navigate("/(send)"))}
+            onPress={() => (router.navigate("/(send)"))}
           />
           <Text className="font-InterBold text-xl ml-3 dark:text-white">Receipt</Text>
         </View>
@@ -42,13 +42,13 @@ const Receipt = () => {
       ? "#38c16f"
       : "#ff0000";
 
-  return (
+      return (
     <ScrollView
       className="flex-1 dark:bg-primary-dark"
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
-      <StatusBar style="auto" />
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
       <View ref={receiptRef} className="dark:bg-primary-dark py-5 px-5 flex-1">
         <View className="flex-1">
           <View className="flex-row justify-between items-center">

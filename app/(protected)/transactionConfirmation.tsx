@@ -12,6 +12,9 @@ import { AppPayload } from "@/models/application/payload";
 import { useGetDataQuery } from "@/store/api.config";
 import { endpoints } from "@/store/endpoints";
 import Loader from "@/components/Loader";
+import { useLocalSearchParams } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "nativewind";
 
 const options: SelectProps["options"] = [
   {
@@ -71,7 +74,9 @@ const sourceOfFund: SelectProps["options"] = [
 ];
 
 const TransactionConfirmation = () => {
+  const { colorScheme } = useColorScheme();
   const dispatch = useAppDispatch();
+  const { type } = useLocalSearchParams();
   const [otherTransferPayload, setOtherTransferPayload] = useState({
     sourceOfFund: sourceOfFund[0].value,
     purposeOfTransfer: options[0].value,
@@ -87,41 +92,51 @@ const TransactionConfirmation = () => {
   const { data, isFetching, isLoading } = useGetDataQuery({
     getUrl: endpoints.cards.getCards,
   });
-  const processing = isFetching || isLoading
-  
+  const processing = isFetching || isLoading;
 
   const recipientDetails = [
     {
-      label: beneficiary?.record?.deliveryMethod?.toUpperCase() === "BANK" ? "Account Number" : "Phone Number",
+      label:
+        type === "AIRTIME"
+          ? "Phone Number"
+          : beneficiary?.record?.deliveryMethod?.toUpperCase() === "BANK"
+          ? "Account Number"
+          : "Wallet Number",
       value: maskAccountNumber(
-        beneficiary?.record?.accountNumber || beneficiary?.record?.walletAccountNumber || beneficiary.record?.beneficiaryPhoneNumber
+        type === "AIRTIME"
+          ? state.initiateAirtime?.beneficiaryPhoneNumber
+          : beneficiary?.record?.accountNumber || beneficiary?.record?.walletAccountNumber
       ),
-      key: 1
+      key: 1,
     },
     {
-      label: "Account Name",
+      label:
+        beneficiary?.record?.deliveryMethod?.toUpperCase() === "BANK"
+          ? "Account Name"
+          : "Wallet Name",
       value: capitalizeFirstLetter(
         beneficiary?.record?.accountName || beneficiary?.record?.walletAccountName
       ),
-      key: 2
+      key: 2,
     },
     {
       label: "Delivery Method",
-      value: beneficiary?.record?.deliveryMethod,
-      key: 3
+      value: type === "AIRTIME" ? "AIRTIME" : beneficiary?.record?.deliveryMethod,
+      key: 3,
     },
-  ]
-  .filter(x => {
-    if (beneficiary?.record?.deliveryMethod?.toUpperCase() !== "BANK") {
-      return x.key !== 2
+  ].filter((x) => {
+    if (type !== "TRANSFER") {
+      return x.key !== 2;
     }
-    return x
-  })
+    return x;
+  });
 
   const transferDetails = [
     {
       label: "You send exactly",
-      value: `$${formattedAmount(state.initiateFundTransfer?.totalAmount)}`,
+      value: `$${formattedAmount(
+        type === "AIRTIME" ? state.initiateAirtime?.amount : state.initiateFundTransfer?.totalAmount
+      )}`,
     },
     {
       label: "Total fees",
@@ -129,32 +144,47 @@ const TransactionConfirmation = () => {
     },
     {
       label: `${capitalizeFirstLetter(
-        beneficiary?.record?.accountName || beneficiary?.record?.walletAccountName || beneficiary.record?.beneficiaryPhoneNumber
+        type === "AIRTIME"
+          ? state.initiateAirtime?.beneficiaryPhoneNumber
+          : beneficiary?.record?.accountName || beneficiary?.record?.walletAccountName
       )} gets`,
-      value: `$${formattedAmount(state.initiateFundTransfer?.amount)}`,
+      value: `$${formattedAmount(
+        type === "AIRTIME" ? state.initiateAirtime.amount : state.initiateFundTransfer?.amount
+      )}`,
     },
   ];
 
   useEffect(() => {
-    dispatch(
-      setSendState(
-        new AppPayload("initiateFundTransfer", {
-          ...state.initiateFundTransfer,
-          fundSource: otherTransferPayload.sourceOfFund as string,
-          transferPurpose: otherTransferPayload.purposeOfTransfer as string,
-        })
-      )
-    );
-  }, [otherTransferPayload.sourceOfFund, otherTransferPayload.purposeOfTransfer]);
+    if (type === "TRANSFER") {
+      dispatch(
+        setSendState(
+          new AppPayload("initiateFundTransfer", {
+            ...state.initiateFundTransfer,
+            fundSource: otherTransferPayload.sourceOfFund as string,
+            transferPurpose: otherTransferPayload.purposeOfTransfer as string,
+          })
+        )
+      );
+    } else {
+      dispatch(
+        setSendState(
+          new AppPayload("initiateAirtime", {
+            ...state.initiateAirtime,
+            fundSource: otherTransferPayload.sourceOfFund as string,
+            transferPurpose: otherTransferPayload.purposeOfTransfer as string,
+          })
+        )
+      );
+    }
+  }, [otherTransferPayload.sourceOfFund, otherTransferPayload.purposeOfTransfer, type]);
 
   if (loading) {
-    return (
-      <Loader message="Connecting to payment gateway..." />
-    )
+    return <Loader message="Connecting to payment gateway..." />;
   }
 
   return (
     <View className="flex-1">
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
       <View className="px-5 flex-1 mb-5">
         <OnboardingHeader title="Does everything look perfect?" description="" />
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
@@ -175,12 +205,6 @@ const TransactionConfirmation = () => {
           <View className="mt-2 flex-1">
             <View className="flex-row justify-between items-center mb-5">
               <Text className="dark:text-white font-InterBold text-base">Recipient Details</Text>
-              {/* <TouchableOpacity
-                onPress={() => router.back()}
-                className="border-b border-black dark:border-white"
-              >
-                <Text className="dark:text-white">Edit</Text>
-              </TouchableOpacity> */}
             </View>
             {recipientDetails.map((item, index) => (
               <View key={index} className="mb-5">
@@ -192,12 +216,6 @@ const TransactionConfirmation = () => {
           <View className="mt-2 flex-1">
             <View className="flex-row justify-between items-center mb-5">
               <Text className="dark:text-white font-InterBold text-base">Transfer Details</Text>
-              {/* <TouchableOpacity
-                onPress={() => router.back()}
-                className="border-b border-black dark:border-white"
-              >
-                <Text className="dark:text-white">Edit</Text>
-              </TouchableOpacity> */}
             </View>
             {transferDetails.map((item, index) => (
               <View key={index} className="mb-5">
@@ -209,7 +227,14 @@ const TransactionConfirmation = () => {
         </ScrollView>
         <Button
           type="primary"
-          onPress={() => onNavigatingToPaymentGateway(data, state.initiateFundTransfer)}
+          onPress={() =>
+            onNavigatingToPaymentGateway(
+              data,
+              type as "AIRTIME" | "TRANSFER",
+              state.initiateFundTransfer,
+              state.initiateAirtime
+            )
+          }
           loading={processing}
           disabled={processing}
         >

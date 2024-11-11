@@ -186,7 +186,7 @@ const NavigationContainer = () => {
           headerLeft: undefined,
           headerShown: false,
           contentStyle: {
-            backgroundColor: "white",
+            backgroundColor: colorScheme === "dark" ? "#121212" : "white",
           },
         }}
       />
