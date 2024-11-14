@@ -59,7 +59,7 @@ export const useSecureStore = (): SecureStoreHook => {
   const clearStore = async () => {
     try {
       setLoading(true);
-      const keys = ['your', 'list', 'of', 'keys']; // Replace with actual keys you use
+      const keys = ['userInfo']; // Replace with actual keys you use
       await Promise.all(keys.map((key) => SecureStore.deleteItemAsync(key)));
       setLoading(false);
     } catch (err) {

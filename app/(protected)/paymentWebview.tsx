@@ -70,7 +70,7 @@ const PaymentWebview = () => {
         }, 1000);
       }
     },
-    [dispatch, state.paymentInitiationResponse.transactionReference]
+    [dispatch, state.paymentInitiationResponse?.transactionReference]
   );
 
   if (showResponseScreen) {

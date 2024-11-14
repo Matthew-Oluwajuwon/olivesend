@@ -150,8 +150,8 @@ const Receipt = () => {
             </View>
           </View>
         </View>
-        <View className="rounded-[11.53px]">
-          <Image source={require("@/assets/images/receipt-img.png")} />
+        <View className="rounded-[11.53px] overflow-hidden">
+          <Image source={require("@/assets/images/receipt-img.png")} className="mx-auto w-full" />
         </View>
       </View>
       <View className="border-b border-[#D8D8D8] dark:border-[#242424]" />

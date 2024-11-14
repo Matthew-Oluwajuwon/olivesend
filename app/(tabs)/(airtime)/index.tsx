@@ -94,7 +94,7 @@ const Airtime = () => {
             label="Amount"
             type="number"
             touched={touched.amount}
-            prefix={<Text>$</Text>}
+            prefix={<Text className="dark:text-white">$</Text>}
             inputProps={{
               value: formattedValue,
               onChangeText: (value) => onAmountChange(value, setFieldValue),
